@@ -1,0 +1,13 @@
+{
+  "tasks": {
+    "dev": "deno run --watch -A index.ts"
+  },
+  "imports": {
+    "@hono/deno": "npm:@hono/deno@^1.0.3",
+    "@hono/node-server": "npm:@hono/node-server@^2.1.5",
+    "@std/assert": "jsr:@std/assert@1",
+    "hono": "npm:hono@^4.13.13",
+
+    "@/": "./"
+  }
+}

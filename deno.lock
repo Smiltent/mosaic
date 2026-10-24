@@ -1,0 +1,57 @@
+{
+  "version": "5",
+  "specifiers": {
+    "jsr:@hono/deno@*": "1.0.3",
+    "jsr:@hono/hono@^4.13.9": "4.13.13",
+    "jsr:@std/assert@1": "1.0.19",
+    "jsr:@std/internal@^1.0.12": "1.0.14",
+    "npm:@hono/deno@^1.0.3": "1.0.3_hono@4.13.13",
+    "npm:@hono/node-server@^2.1.5": "2.1.5_hono@4.13.13",
+    "npm:hono@^4.13.13": "4.13.13"
+  },
+  "jsr": {
+    "@hono/deno@1.0.3": {
+      "integrity": "65f4febf75962c2f4e318ac6e767f5d364d79ba6a958aa7f83b991fb83a78b57",
+      "dependencies": [
+        "jsr:@hono/hono"
+      ]
+    },
+    "@hono/hono@4.13.13": {
+      "integrity": "dec817b8600fc2835c259d875a69e849a706f6d25e8d0643d75c97f7d0afcdf8"
+    },
+    "@std/assert@1.0.19": {
+      "integrity": "eaada96ee120cb980bc47e040f82814d786fe8162ecc53c91d8df60b8755991e",
+      "dependencies": [
+        "jsr:@std/internal"
+      ]
+    },
+    "@std/internal@1.0.14": {
+      "integrity": "291516b3d4c35024d6ffbc0a9df5bf4c64116e05b50012cf846710152d2ffdf7"
+    }
+  },
+  "npm": {
+    "@hono/deno@1.0.3_hono@4.13.13": {
+      "integrity": "sha512-ZJwnHVp4HvbwKHo+LK0oQyo/pP3Uch3M5x3c7Z+0L9uGA4CzwSyjIJ27U63UJ8AjXDBKpLo1sl2FVNJLApSvzg==",
+      "dependencies": [
+        "hono"
+      ]
+    },
+    "@hono/node-server@2.1.5_hono@4.13.13": {
+      "integrity": "sha512-MgP/I06GdvsilDspMk/qmRzpk8LOUStP6jFAbSRi40W09DhoyUn+Mj7eyKICPqeYKybOjVFLVIAQzvu1bfIa7Q==",
+      "dependencies": [
+        "hono"
+      ]
+    },
+    "hono@4.13.13": {
+      "integrity": "sha512-CQ46U0ZkAGmbT/4UxdzzGJpacP2IeKgY4a5/tOI9AABbpOMfK739wfDXmv1usCk+3RkKj1hQy4/fjhiwa2xlrA=="
+    }
+  },
+  "workspace": {
+    "dependencies": [
+      "jsr:@std/assert@1",
+      "npm:@hono/deno@^1.0.3",
+      "npm:@hono/node-server@^2.1.5",
+      "npm:hono@^4.13.13"
+    ]
+  }
+}
