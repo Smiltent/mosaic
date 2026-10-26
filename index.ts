@@ -1,4 +1,10 @@
 
-import Honoo from "@/src/Hono.ts"
+import Honoo from "@/src/server/Hono.ts"
+import build from "@/util/build.ts"
 
-new Honoo()
+async function main() {
+    await build()
+    new Honoo()
+}
+
+await main()

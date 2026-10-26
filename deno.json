@@ -1,13 +1,23 @@
 {
   "tasks": {
-    "dev": "deno run --watch -A index.ts"
+    "dev": "deno run --watch=client/,index.ejs -A index.ts",
+    "build": "deno run -A index.ts"
   },
   "imports": {
     "@hono/deno": "npm:@hono/deno@^1.0.3",
     "@hono/node-server": "npm:@hono/node-server@^2.1.5",
     "@std/assert": "jsr:@std/assert@1",
+    "ejs": "npm:ejs@^7.0.2",
+    "esbuild": "npm:esbuild@^0.28.2",
     "hono": "npm:hono@^4.13.13",
 
     "@/": "./"
+  },
+  "compilerOptions": {
+    "lib":[
+      "deno.window",
+      "dom",
+      "node"
+    ]
   }
 }
