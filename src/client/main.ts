@@ -1,24 +1,47 @@
 
 import { ClientMessage, ServerMessage } from "@/src/shared/messages.ts"
+import { HEIGHT, WIDTH } from "@/src/shared/world.ts"
 import { Player } from "@/src/shared/player.ts"
-
-interface WSPlayer extends Player {
-    id: number
-}
 
 const canvas = document.getElementById("game") as HTMLCanvasElement
 const ctx = canvas.getContext("2d")!
 
-const SIZE = 8
+const SIZE = 16
+const GAME_W = WIDTH * SIZE // 1280
+const GAME_H = HEIGHT * SIZE // 720
 
 let tiles: number[] = []
 let height = 0
 let width = 0
 
+interface WSPlayer extends Player {
+    id: number
+}
+
 const others = new Map<number, WSPlayer>()
 
 const send = (msg: ClientMessage) => ws.send(JSON.stringify(msg))
 const ws = new WebSocket(`ws://${location.host}/ws`)
+
+function resize() {
+    const rect = canvas.getBoundingClientRect()
+    const dpr = devicePixelRatio || 1
+
+    canvas.width = Math.round(rect.width * dpr)
+    canvas.height = Math.round(rect.height * dpr)
+    // ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
+
+    draw()
+}
+
+function tileAt(e: MouseEvent) {
+    const rect = canvas.getBoundingClientRect()
+
+    return {
+        x: Math.floor((e.clientX - rect.left) / rect.width * GAME_W / SIZE),
+        y: Math.floor((e.clientY - rect.top) / rect.height * GAME_H / SIZE)
+    }
+}
 
 ws.onmessage = (e) => {
     const msg = JSON.parse(e.data) as ServerMessage
@@ -57,6 +80,9 @@ ws.onmessage = (e) => {
 }
 
 function draw() {
+    const s = canvas.width / GAME_W
+    ctx.setTransform(s, 0, 0, s, 0, 0)
+
     for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
             ctx.fillStyle = tiles[y * width + x] ? "#333" : "#eee"
@@ -80,13 +106,14 @@ canvas.onmousedown = (e) => {
 
 onmouseup = () => (painting = false)
 oncontextmenu = (e) => e.preventDefault()
+onresize = resize
+resize()
 
 function place(e: MouseEvent) {
     send({
         type: "place",
-        x: Math.floor(e.offsetX / SIZE), 
-        y: Math.floor(e.offsetY / SIZE), 
-        tile: e.button === 2 ? 0 : 1
+        tile: e.button === 2 ? 0 : 1,
+        ...tileAt(e)
     })
 }
 
@@ -103,7 +130,6 @@ canvas.onmousemove = (e) => {
 
     send({
         type: "move",
-        x: Math.floor(e.offsetX / SIZE),
-        y: Math.floor(e.offsetY / SIZE)
+        ...tileAt(e)
     })
 }

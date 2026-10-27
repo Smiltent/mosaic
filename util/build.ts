@@ -3,11 +3,12 @@ import * as esbuild from "esbuild"
 
 export default async function build() {
     const result = await esbuild.build({
-        entryPoints: ["client/main.ts"],
+        entryPoints: ["src/client/main.ts"],
         bundle: true,
         write: false,
         format: "iife",
-        minify: process.env.NODE_ENV !== "dev"
+        minify: process.env.NODE_ENV !== "dev",
+        alias: { "@": new URL("../", import.meta.url).pathname }
     })
 
     const code = result.outputFiles[0].contents

@@ -1,7 +1,7 @@
 {
   "tasks": {
-    "dev": "deno run --watch=client/,index.ejs -A index.ts",
-    "build": "deno run -A index.ts"
+    "dev": "deno run --watch=src/client/,index.ejs -A index.ts",
+    "prod": "deno run -A index.ts"
   },
   "imports": {
     "@hono/deno": "npm:@hono/deno@^1.0.3",
@@ -14,7 +14,7 @@
     "@/": "./"
   },
   "compilerOptions": {
-    "lib":[
+    "lib": [
       "deno.window",
       "dom",
       "node"

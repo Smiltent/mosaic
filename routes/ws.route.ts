@@ -1,6 +1,7 @@
 
-import { upgradeWebSocket } from "@hono/deno"
+import { HEIGHT, WIDTH } from "@/src/shared/world.ts"
 import { Player } from "@/src/shared/player.ts"
+import { upgradeWebSocket } from "@hono/deno"
 import { WSContext } from "hono/ws"
 import { Hono } from "hono"
 
@@ -9,7 +10,7 @@ interface WSPlayer extends Player {
 }
 
 const players = new Map<number, WSPlayer>()
-const world = new Uint16Array(50 * 50)
+const world = new Uint16Array(WIDTH * HEIGHT)
 const router = new Hono()
 
 let nextId = 1
@@ -42,8 +43,8 @@ router.get("/ws", upgradeWebSocket(() => {
             ws.send(JSON.stringify({
                 type: "init",
                 id,
-                width: 50,
-                height: 50,
+                width: WIDTH,
+                height: HEIGHT,
                 tiles: Array.from(world),
                 players: [...players].filter(([pid]) => pid !== id)
                     .map(([pid, pl]) => ({ id: pid, x: pl.x, y: pl.y, color: pl.color }))
@@ -61,8 +62,8 @@ router.get("/ws", upgradeWebSocket(() => {
             if (msg.type === "place") {
                 const { x, y, tile } = msg
 
-                if (x < 0 || x >= 50 || y < 0 || y >= 50) return
-                world[y * 50 + x] = tile
+                if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return
+                world[y * WIDTH + x] = tile
 
                 broadcast({
                     type: "place",

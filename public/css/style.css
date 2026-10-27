@@ -1,0 +1,28 @@
+
+* {
+    padding: 0;
+    margin: 0;
+
+    box-sizing: border-box;
+}
+
+:root {
+    --game-padding-all-around: 10rem;
+}
+
+body {
+    margin: 0;
+    min-height: 100dvh;
+
+    padding: var(--game-padding-all-around);
+    display: grid;
+    place-items: center;
+    background-color: #070707;
+}
+
+#game {
+    aspect-ratio: 16 / 9;
+    width: min(100%, calc((100dvh - (var(--game-padding-all-around) * 2)) * 16 / 9));
+    
+    border: 3px solid #444444;
+}
