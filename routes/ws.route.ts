@@ -1,10 +1,10 @@
 
-import { HEIGHT, SIZE, WIDTH, World } from "@/src/shared/world.ts"
+import { HEIGHT, WIDTH, World } from "@/src/shared/world.ts"
+import { ClientMessage } from "@/src/shared/messages.ts"
 import { Player } from "@/src/shared/player.ts"
 import { upgradeWebSocket } from "@hono/deno"
 import { WSContext } from "hono/ws"
 import { Hono } from "hono"
-import { ClientMessage } from "@/src/shared/messages.ts";
 
 interface WSPlayer extends Player {
     ws: WSContext

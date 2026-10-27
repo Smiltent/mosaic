@@ -1,5 +1,4 @@
-import { SIZE } from "@/src/shared/world.ts";
-
+import { SIZE } from "@/src/shared/world.ts"
 
 const sprites = new Map<number, HTMLCanvasElement>()
 
