@@ -4,6 +4,10 @@ export interface Player {
 
     x: number
     y: number
+    
+    speedX: number
+    speedY: number
+    onGround: boolean
 
     color: string
 }

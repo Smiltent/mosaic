@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "dev": "deno run --watch=src/client/,index.ejs -A index.ts",
+    "dev": "deno run --watch=src/client/,src/shared/,index.ejs -A index.ts",
     "prod": "deno run -A index.ts"
   },
   "imports": {

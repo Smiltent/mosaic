@@ -1,16 +1,17 @@
 
-import { HEIGHT, WIDTH } from "@/src/shared/world.ts"
+import { HEIGHT, SIZE, WIDTH, World } from "@/src/shared/world.ts"
 import { Player } from "@/src/shared/player.ts"
 import { upgradeWebSocket } from "@hono/deno"
 import { WSContext } from "hono/ws"
 import { Hono } from "hono"
+import { ClientMessage } from "@/src/shared/messages.ts";
 
 interface WSPlayer extends Player {
     ws: WSContext
 }
 
 const players = new Map<number, WSPlayer>()
-const world = new Uint16Array(WIDTH * HEIGHT)
+const world = new World()
 const router = new Hono()
 
 let nextId = 1
@@ -35,6 +36,9 @@ router.get("/ws", upgradeWebSocket(() => {
                 ws,
                 x: 0,
                 y: 0,
+                speedX: 0,
+                speedY: 0,
+                onGround: false,
                 color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`
             })
 
@@ -43,30 +47,41 @@ router.get("/ws", upgradeWebSocket(() => {
             ws.send(JSON.stringify({
                 type: "init",
                 id,
-                width: WIDTH,
-                height: HEIGHT,
-                tiles: Array.from(world),
+                x: p.x,
+                y: p.y,
+                color: p.color,
+                world: world.layers.map(l => Array.from(l)),
                 players: [...players].filter(([pid]) => pid !== id)
-                    .map(([pid, pl]) => ({ id: pid, x: pl.x, y: pl.y, color: pl.color }))
+                    .map(([pid, pl]) => ({ id: pid, x: pl.x, y: pl.y, speedX: pl.speedX, speedY: pl.speedY, onGround: pl.onGround, color: pl.color }))
             }))
 
-            broadcast({ type: "join", id, x: 0, y: 0, color: p.color }, id)
+            broadcast({ type: "join", id, x: p.x, y: p.y, color: p.color }, id)
         },
 
         onMessage(e) {
-            const msg = JSON.parse(e.data.toString())
+            let msg: ClientMessage
+            try {
+                msg = JSON.parse(e.data.toString())
+            } catch {
+                return 
+            }
+
             const p = players.get(id)
 
             if (!p) return
 
             if (msg.type === "place") {
-                const { x, y, tile } = msg
+                const { layer, x, y, tile } = msg
 
+                if (layer !== 0 && layer !== 1) return
                 if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return
-                world[y * WIDTH + x] = tile
+                
+                if (world.get(layer, x, y) === tile) return
+                world.set(layer, x, y, tile)
 
                 broadcast({
                     type: "place",
+                    layer,
                     x,
                     y,
                     tile
@@ -74,12 +89,16 @@ router.get("/ws", upgradeWebSocket(() => {
             } else if (msg.type === "move") {
                 p.x = msg.x
                 p.y = msg.y
+                p.speedX = msg.speedX
+                p.speedY = msg.speedY
 
                 broadcast({
                     type: "move",
                     id,
                     x: p.x,
-                    y: p.y
+                    y: p.y,
+                    speedX: p.speedX,
+                    speedY: p.speedY
                 }, id)
             }
         },
