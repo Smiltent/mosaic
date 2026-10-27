@@ -15,6 +15,8 @@ const GAME_H = HEIGHT * SIZE // 720
 const world = new World()
 
 const ZOOM = 1
+const CAMERA_LAG = 1 / 16
+const CAMERA_SNAP = 0.5
 
 let me: Player | null = null
 let camX = 0
@@ -30,6 +32,22 @@ function scale() {
     return (devicePixelRatio || 1) * ZOOM
 }
 
+function stepCamera(viewW: number, viewH: number, target: { x: number; y: number }) {
+    const dx = target.x + SIZE / 2 - viewW / 2
+    const dy = target.y + SIZE / 2 - viewH / 2
+
+    camX -= (camX - dx) * CAMERA_LAG
+    camY -= (camY - dy) * CAMERA_LAG
+
+    if (Math.abs(camX - dx) < CAMERA_SNAP) camX = dx
+    if (Math.abs(camY - dy) < CAMERA_SNAP) camY = dy
+}
+
+function snapCamera(viewW: number, viewH: number, target: { x: number; y: number }) {
+    camX = target.x + SIZE / 2 - viewW / 2
+    camY = target.y + SIZE / 2 - viewH / 2
+}
+
 function resize() {
     const rect = canvas.getBoundingClientRect()
     const dpr = devicePixelRatio || 1
@@ -42,7 +60,7 @@ function resize() {
 
 function tileAt(e: MouseEvent) {
     const rect = canvas.getBoundingClientRect()
-    // CSS px → world px: divide by ZOOM (one world px draws as ZOOM CSS px)
+
     const wx = camX + (e.clientX - rect.left) / ZOOM
     const wy = camY + (e.clientY - rect.top) / ZOOM
 
@@ -63,6 +81,11 @@ ws.onmessage = (e) => {
 
             for (const p of msg.players) {
                 others.set(p.id, { ...p, tx: p.x, ty: p.y })
+            }
+
+            {
+                const s = scale()
+                snapCamera(canvas.width / s, canvas.height / s, me)
             }
             break
 
@@ -93,9 +116,6 @@ function draw() {
     const s = scale()
     const viewW = canvas.width / s
     const viewH = canvas.height / s
-
-    camX = (me ? me.x + SIZE / 2 : 0) - viewW / 2
-    camY = (me ? me.y + SIZE / 2 : 0) - viewH / 2
 
     ctx.setTransform(s, 0, 0, s, -camX * s, -camY * s)
     ctx.imageSmoothingEnabled = false
@@ -191,9 +211,14 @@ function frame(now: number) {
     // simulate less than 10t per frame
     acc = Math.min(acc, MS_PER_TICK * 15)
 
+    const s = scale()
+    const viewW = canvas.width / s
+    const viewH = canvas.height / s
+
     while (acc >= MS_PER_TICK) {
         if (me) {
             stepPlayer(me, input, world)
+            stepCamera(viewW, viewH, me)
         }
 
         acc -= MS_PER_TICK
