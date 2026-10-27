@@ -47,7 +47,7 @@ export const GravityBlocks: Record<number, [number, number]> = {
 }
 
 export const isLiquid = (id: number) => id >= Block.Water && id <= Block.Toxic
-export const isBG = (id: number) => false // none currently
+export const isBG = (_id: number) => false // none currently
 
 export function layerOf(id: number) {
     return isBG(id) ? 1 : 0
