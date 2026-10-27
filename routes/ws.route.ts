@@ -42,6 +42,7 @@ router.get("/ws", upgradeWebSocket(() => {
                 jumpCount: 0,
                 maxJumps: 1,
                 lastJump: 0,
+                tileQueue: [0, 0],
                 color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`
             })
 

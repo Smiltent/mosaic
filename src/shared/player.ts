@@ -1,7 +1,7 @@
 
 export interface Player {
     id: number
-    
+
     x: number
     y: number
     speedX: number
@@ -11,6 +11,8 @@ export interface Player {
     jumpCount: number
     maxJumps: number
     lastJump: number
+
+    tileQueue: [number, number]
 
     color: string
 }

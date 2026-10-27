@@ -24,7 +24,7 @@ export const DragBlocks = {
     NO_MOD: Math.pow(0.99, 10) * CONSTANT,
 }
 
-export const LiquidDrag = {
+export const LiquidDrag: { [id: number]: number } = {
     [Block.Water]: Math.pow(0.995, 10) * CONSTANT,
     [Block.Mud]: Math.pow(0.975, 10) * CONSTANT,
     [Block.Lava]: Math.pow(0.98, 10) * CONSTANT,

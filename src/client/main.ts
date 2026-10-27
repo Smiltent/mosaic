@@ -49,7 +49,7 @@ ws.onmessage = (e) => {
     switch (msg.type) {
         case "init": 
             msg.world.forEach((tiles, layer) => world.layers[layer].set(tiles))
-            me = { id: msg.id, x: msg.x, y: msg.y, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, color: msg.color }
+            me = { id: msg.id, x: msg.x, y: msg.y, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tileQueue: [0, 0], color: msg.color }
             others.clear()
 
             for (const p of msg.players) {
@@ -62,7 +62,7 @@ ws.onmessage = (e) => {
             break
 
         case "join":
-            others.set(msg.id, { ...msg, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tx: msg.x, ty: msg.y })
+            others.set(msg.id, { ...msg, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tileQueue: [0, 0], tx: msg.x, ty: msg.y })
             break
 
         // deno-lint-ignore no-case-declarations -- temp
@@ -180,7 +180,7 @@ function frame(now: number) {
     last = now
 
     // simulate less than 10t per frame
-    acc = Math.min(acc, 100)
+    acc = Math.min(acc, MS_PER_TICK * 15)
 
     while (acc >= MS_PER_TICK) {
         if (me) {

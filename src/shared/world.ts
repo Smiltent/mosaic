@@ -25,7 +25,7 @@ export class World {
         if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return false
         if (this.get(layer, x, y) === id) return false
 
-        this.layers[layer][layer * WIDTH + x] = id
+        this.layers[layer][y * WIDTH + x] = id
 
         return true
     }
