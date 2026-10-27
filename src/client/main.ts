@@ -5,6 +5,7 @@ import { stepPlayer } from "@/src/shared/physics.ts"
 import { brickSprite } from "@/src/client/bricks.ts"
 import { Input, Player } from "@/src/shared/player.ts"
 import { layerOf } from "@/src/shared/blocks.ts";
+import { createBlockBar } from "@/src/client/ui/blocks.ts";
 
 const canvas = document.getElementById("game") as HTMLCanvasElement
 const ctx = canvas.getContext("2d")!
@@ -12,6 +13,8 @@ const ctx = canvas.getContext("2d")!
 const GAME_W = WIDTH * SIZE // 1280
 const GAME_H = HEIGHT * SIZE // 720
 const world = new World()
+
+const ZOOM = 1
 
 let me: Player | null = null
 let camX = 0
@@ -23,23 +26,29 @@ const others = new Map<number, RemotePlayer>()
 const send = (msg: ClientMessage) => ws.send(JSON.stringify(msg))
 const ws = new WebSocket(`ws://${location.host}/ws`)
 
+function scale() {
+    return (devicePixelRatio || 1) * ZOOM
+}
+
 function resize() {
     const rect = canvas.getBoundingClientRect()
     const dpr = devicePixelRatio || 1
 
     canvas.width = Math.round(rect.width * dpr)
     canvas.height = Math.round(rect.height * dpr)
-    // ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
 
     draw()
 }
 
 function tileAt(e: MouseEvent) {
     const rect = canvas.getBoundingClientRect()
+    // CSS px → world px: divide by ZOOM (one world px draws as ZOOM CSS px)
+    const wx = camX + (e.clientX - rect.left) / ZOOM
+    const wy = camY + (e.clientY - rect.top) / ZOOM
 
     return {
-        x: Math.floor((e.clientX - rect.left + camX) / SIZE),
-        y: Math.floor((e.clientY - rect.top + camY) / SIZE)
+        x: Math.floor(wx / SIZE),
+        y: Math.floor(wy / SIZE),
     }
 }
 
@@ -81,17 +90,17 @@ ws.onmessage = (e) => {
 }
 
 function draw() {
-    const dpr = devicePixelRatio || 1
-    const viewW = canvas.width / dpr
-    const viewH = canvas.height / dpr
+    const s = scale()
+    const viewW = canvas.width / s
+    const viewH = canvas.height / s
 
     camX = (me ? me.x + SIZE / 2 : 0) - viewW / 2
     camY = (me ? me.y + SIZE / 2 : 0) - viewH / 2
 
-    ctx.setTransform(dpr, 0, 0, dpr, -camX * dpr, -camY * dpr)
+    ctx.setTransform(s, 0, 0, s, -camX * s, -camY * s)
     ctx.imageSmoothingEnabled = false
 
-    // surounding area
+    // surrounding area
     ctx.fillStyle = "#000"
     ctx.fillRect(camX, camY, viewW, viewH)
 
@@ -213,6 +222,10 @@ function frame(now: number) {
 
 requestAnimationFrame(frame)
 
+let selectedBlock = 1
+createBlockBar((id) => {
+    selectedBlock = id
+})
 
 // painting
 let painting = false
@@ -224,17 +237,18 @@ let pastT = 0
 function placeAt(x: number, y: number, button: number) {
     const now = performance.now()
     if (x === pastX && y === pastY && now - pastT < 500) return
-    
     pastX = x
     pastY = y
     pastT = now
-    
     if (button === 2) {
         if (world.get(eraserLayer, x, y) !== 0) {
             send({ type: "place", layer: eraserLayer, x, y, tile: 0 })
         }
-    } else if (world.get(FG, x, y) !== 1 && !overlapsMe(x, y)) {
-        send({ type: "place", layer: layerOf(1), x, y, tile: 1 })
+    } else if (!overlapsMe(x, y)) {
+        const layer = layerOf(selectedBlock)
+        if (world.get(layer, x, y) === selectedBlock) return
+        
+        send({ type: "place", layer, x, y, tile: selectedBlock })
     }
 }
 
