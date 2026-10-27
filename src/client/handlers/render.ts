@@ -1,7 +1,8 @@
-import { WIDTH, SIZE, HEIGHT, World, BG, FG } from "@/src/shared/world.ts";
-import { Player } from "@/src/shared/player.ts";
-import { camX, camY } from "@/src/client/handlers/camera.ts";
-import { brickSprite } from "@/src/client/bricks.ts";
+
+import { WIDTH, SIZE, HEIGHT, World, BG, FG } from "@/src/shared/world.ts"
+import { camX, camY } from "@/src/client/handlers/camera.ts"
+import { brickSprite } from "@/src/client/bricks.ts"
+import { Player } from "@/src/shared/player.ts"
 
 const GAME_W = WIDTH * SIZE // 1280
 const GAME_H = HEIGHT * SIZE // 720

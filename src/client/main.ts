@@ -1,5 +1,5 @@
 
-import { createGame } from "@/src/client/handlers/game.ts";
+import { createGame } from "@/src/client/handlers/game.ts"
 import { createBlockBar } from "@/src/client/ui/blocks.ts"
 
 const canvas = document.getElementById("game") as HTMLCanvasElement

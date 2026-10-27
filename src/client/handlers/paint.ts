@@ -1,9 +1,9 @@
 
-import { Player } from "@/src/shared/player.ts"
 import { BG, FG, SIZE, World } from "@/src/shared/world.ts"
+import { tileAt } from "@/src/client/handlers/render.ts"
 import { Net } from "@/src/client/handlers/net.ts"
-import { layerOf } from "@/src/shared/blocks.ts";
-import { tileAt } from "@/src/client/handlers/render.ts";
+import { layerOf } from "@/src/shared/blocks.ts"
+import { Player } from "@/src/shared/player.ts"
 
 export type PaintState = {
     selectedBlock: number
@@ -64,6 +64,6 @@ export function bindPaint(canvas: HTMLCanvasElement, world: World, net: Net, sta
         painting = false
         pastX = pastY = -1
     }
-    
+
     oncontextmenu = (e) => e.preventDefault()
 }

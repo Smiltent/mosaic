@@ -1,4 +1,5 @@
-import { layerOf } from "@/src/shared/blocks.ts";
+
+import { layerOf } from "@/src/shared/blocks.ts"
 
 export const WIDTH = 80
 export const HEIGHT = 45

@@ -1,12 +1,13 @@
-import { Player } from "@/src/shared/player.ts"
+
+import { snapCamera, stepCamera } from "@/src/client/handlers/camera.ts"
+import { draw, resize, scale } from "@/src/client/handlers/render.ts"
+import { bindInput, input } from "@/src/client/handlers/input.ts"
+import { connect, Net } from "@/src/client/handlers/net.ts"
 import { MS_PER_TICK, World } from "@/src/shared/world.ts"
-import { connect, Net } from "@/src/client/handlers/net.ts";
-import { ServerMessage } from "@/src/shared/messages.ts";
-import { snapCamera, stepCamera } from "@/src/client/handlers/camera.ts";
-import { draw, resize, scale } from "@/src/client/handlers/render.ts";
-import { stepPlayer } from "@/src/shared/physics.ts";
-import { bindInput, input } from "@/src/client/handlers/input.ts";
-import { bindPaint } from "@/src/client/handlers/paint.ts";
+import { bindPaint } from "@/src/client/handlers/paint.ts"
+import { ServerMessage } from "@/src/shared/messages.ts"
+import { stepPlayer } from "@/src/shared/physics.ts"
+import { Player } from "@/src/shared/player.ts"
 
 type RemotePlayer = Player & { tx: number, ty: number }
 

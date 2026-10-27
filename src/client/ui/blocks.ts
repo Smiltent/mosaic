@@ -4,16 +4,18 @@ import { Block } from "@/src/shared/blocks.ts"
 
 const PLACEABLE = [
     { id: Block.Basic, label: "Basic" },
+
     { id: Block.GravityLeft, label: "Gravity ←" },
     { id: Block.GravityRight, label: "Gravity →" },
     { id: Block.GravityUp, label: "Gravity ↑" },
     { id: Block.GravityDown, label: "Gravity ↓" },
     { id: Block.GravityDot, label: "Gravity ·" },
+    
     { id: Block.Water, label: "Water" },
     { id: Block.Mud, label: "Mud" },
     { id: Block.Lava, label: "Lava" },
     { id: Block.Toxic, label: "Toxic" },
-    { id: Block.Spike, label: "Spike" },
+    { id: Block.Spike, label: "Spike" }
 ]
 
 export function createBlockBar(onSelect: (id: number) => void) {
