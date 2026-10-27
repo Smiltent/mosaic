@@ -1,3 +1,4 @@
+import { layerOf } from "@/src/shared/blocks.ts";
 
 export const WIDTH = 80
 export const HEIGHT = 45
@@ -18,6 +19,19 @@ export class World {
     public set(layer: number, x: number, y: number, id: number) {
         if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return
         this.layers[layer][y * WIDTH + x] = id
+    }
+
+    public setTile(layer: number, x: number, y: number, id: number) {
+        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return false
+        if (this.get(layer, x, y) === id) return false
+
+        this.layers[layer][layer * WIDTH + x] = id
+
+        return true
+    }
+
+    public placeBlock(x: number, y: number, id: number, eraserLayer: number) {
+        return this.setTile(id === 0 ? eraserLayer : layerOf(id), x, y, id)
     }
 
     public isSolid(x: number, y: number) {

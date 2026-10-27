@@ -39,6 +39,9 @@ router.get("/ws", upgradeWebSocket(() => {
                 speedX: 0,
                 speedY: 0,
                 onGround: false,
+                jumpCount: 0,
+                maxJumps: 1,
+                lastJump: 0,
                 color: `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`
             })
 
@@ -74,10 +77,7 @@ router.get("/ws", upgradeWebSocket(() => {
                 const { layer, x, y, tile } = msg
 
                 if (layer !== 0 && layer !== 1) return
-                if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return
-                
-                if (world.get(layer, x, y) === tile) return
-                world.set(layer, x, y, tile)
+                if (!world.setTile(layer, x, y, tile)) return
 
                 broadcast({
                     type: "place",

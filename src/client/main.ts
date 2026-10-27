@@ -1,9 +1,10 @@
 
 import { BG, FG, HEIGHT, MS_PER_TICK, SIZE, WIDTH, World } from "@/src/shared/world.ts"
 import { ClientMessage, ServerMessage } from "@/src/shared/messages.ts"
-import { Input, stepPlayer } from "@/src/shared/physics.ts"
+import { stepPlayer } from "@/src/shared/physics.ts"
 import { brickSprite } from "@/src/client/bricks.ts"
-import { Player } from "@/src/shared/player.ts"
+import { Input, Player } from "@/src/shared/player.ts"
+import { layerOf } from "@/src/shared/blocks.ts";
 
 const canvas = document.getElementById("game") as HTMLCanvasElement
 const ctx = canvas.getContext("2d")!
@@ -48,7 +49,7 @@ ws.onmessage = (e) => {
     switch (msg.type) {
         case "init": 
             msg.world.forEach((tiles, layer) => world.layers[layer].set(tiles))
-            me = { id: msg.id, x: msg.x, y: msg.y, speedX: 0, speedY: 0, onGround: false, color: msg.color }
+            me = { id: msg.id, x: msg.x, y: msg.y, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, color: msg.color }
             others.clear()
 
             for (const p of msg.players) {
@@ -61,7 +62,7 @@ ws.onmessage = (e) => {
             break
 
         case "join":
-            others.set(msg.id, { ...msg, speedX: 0, speedY: 0, onGround: false, tx: msg.x, ty: msg.y })
+            others.set(msg.id, { ...msg, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tx: msg.x, ty: msg.y })
             break
 
         // deno-lint-ignore no-case-declarations -- temp
@@ -129,7 +130,7 @@ function draw() {
     }
 }
 
-const input: Input = { left: false, right: false, up: false, down: false, space: false }
+const input: Input = { left: false, right: false, up: false, down: false, space: false, justSpace: false }
 
 function setKey(e: KeyboardEvent, down: boolean) {
     switch (e.code) {
@@ -154,6 +155,9 @@ function setKey(e: KeyboardEvent, down: boolean) {
             break
 
         case "Space": 
+            if (down && !input.space) {
+                input.justSpace = true
+            }
             input.space = down
             break
     }
@@ -165,25 +169,6 @@ onkeyup = (e) => setKey(e, false)
 // holy
 function overlapsMe(x: number, y: number) {
     return !!me && x * SIZE < me.x + SIZE && x * SIZE + SIZE > me.x && y * SIZE < me.y + SIZE && y * SIZE + SIZE > me.y
-}
-
-function placeAt(x: number, y: number, button: number) {
-    if (button === 2) {
-        const layer = world.get(FG, x, y) !== 0 ? FG : BG
-
-        if (world.get(layer, x, y) !== 0) {
-            send({ type: "place", layer, x, y, tile: 0 })
-        }
-    } else if (world.get(FG, x, y) !== 1 && !overlapsMe(x, y)) {
-        send({ type: "place", layer: FG, x, y, tile: 1 })
-    }
-}
-
-function place(e: MouseEvent) {
-    if (!me) return
-    const { x, y } = tileAt(e)
-
-    placeAt(x, y, e.button)
 }
 
 let acc = 0
@@ -203,6 +188,7 @@ function frame(now: number) {
         }
 
         acc -= MS_PER_TICK
+        input.justSpace = false
     }
 
     for (const p of others.values()) {
@@ -227,32 +213,50 @@ function frame(now: number) {
 
 requestAnimationFrame(frame)
 
+
+// painting
 let painting = false
-let lastPX = -1
-let lastPY = -1
+let eraserLayer = FG
+let pastX = -1
+let pastY = -1
+let pastT = 0
+
+function placeAt(x: number, y: number, button: number) {
+    const now = performance.now()
+    if (x === pastX && y === pastY && now - pastT < 500) return
+    
+    pastX = x
+    pastY = y
+    pastT = now
+    
+    if (button === 2) {
+        if (world.get(eraserLayer, x, y) !== 0) {
+            send({ type: "place", layer: eraserLayer, x, y, tile: 0 })
+        }
+    } else if (world.get(FG, x, y) !== 1 && !overlapsMe(x, y)) {
+        send({ type: "place", layer: layerOf(1), x, y, tile: 1 })
+    }
+}
+
 canvas.onmousedown = (e) => {
+    const { x, y } = tileAt(e)
+    eraserLayer = world.get(FG, x, y) !== 0 ? FG : BG
     painting = true
-    place(e)
+
+    placeAt(x, y, e.button)
 }
 
 canvas.onmousemove = (e) => {
     if (!painting) return
-
     const { x, y } = tileAt(e)
-    const steps = Math.max(Math.abs(x - lastPX), Math.abs(y - lastPY))
 
-    if (lastPX >= 0 && steps > 1) {
-        for (let i = 1; i < steps; i++) {
-            placeAt(Math.round(lastPX + (x - lastPX) * i / steps), Math.round(lastPY + (y - lastPY) * i / steps), e.button)
-        }
-    }
-
-    lastPX = x
-    lastPY = y
-    place(e)
+    placeAt(x, y, e.button)
 }
 
-onmouseup = () => (painting = false)
+onmouseup = () => {
+    painting = false
+    pastX = pastY = -1
+}
 oncontextmenu = (e) => e.preventDefault()
 onresize = resize
 resize()
