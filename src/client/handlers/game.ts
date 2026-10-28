@@ -22,7 +22,6 @@ export function createGame(canvas: HTMLCanvasElement) {
     let acc = 0
 
     let last = performance.now()
-    let lastSent = 0
 
     const net: Net = connect(handleMessage)
     function handleMessage(msg: ServerMessage) {
@@ -69,6 +68,11 @@ export function createGame(canvas: HTMLCanvasElement) {
         draw(canvas, ctx, world, me, others.values())
     }
 
+    let lastSent = 0
+    let lastSentX = NaN
+    let lastSentY = NaN
+    let lastSentSX = NaN
+    let lastSentSY = NaN
     function frame(now: number) {
         acc += now - last
         last = now
@@ -96,14 +100,27 @@ export function createGame(canvas: HTMLCanvasElement) {
         }
 
         if (me && now - lastSent > 66) {
-            lastSent = now
-            net.send({
-                type: "move",
-                x: me.x,
-                y: me.y,
-                speedX: me.speedX,
-                speedY: me.speedY
-            })
+            const changed = 
+                me.x !== lastSentX
+                || me.y !== lastSentY
+                || me.speedX !== lastSentSX
+                || me.speedY !== lastSentSY
+
+            if (changed) {
+                lastSent = now
+                lastSentX = me.x
+                lastSentY = me.y
+                lastSentSX = me.speedX
+                lastSentSY = me.speedY
+
+                net.send({
+                    type: "move",
+                    x: me.x,
+                    y: me.y,
+                    speedX: me.speedX,
+                    speedY: me.speedY
+                })
+            }
         }
 
         redraw()
