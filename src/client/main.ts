@@ -1,10 +1,10 @@
 
 import { createGame } from "@/src/client/handlers/game.ts"
-import { createBlockBar } from "@/src/client/ui/blocks.ts"
+import { createHud } from "@/src/client/ui/hud.ts"
 
 const canvas = document.getElementById("game") as HTMLCanvasElement
 const game = createGame(canvas)
 
-createBlockBar((id) => {
+createHud((id) => {
     game.setSelectedBlock(id)
 })
