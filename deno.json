@@ -15,9 +15,9 @@
   },
   "compilerOptions": {
     "lib": [
-      "deno.window",
       "dom",
-      "node"
+      "dom.iterable",
+      "deno.window"
     ]
   }
 }

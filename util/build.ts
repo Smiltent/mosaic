@@ -11,7 +11,7 @@ export default async function build() {
     
     const entries = [
         { entry: "src/client/menu.ts", name: "menu" },
-        { entry: "src/client/main.ts", name: "game" },
+        { entry: "src/client/game.ts", name: "game" },
         { entry: "src/client/global.ts", name: "global" }
     ]
     

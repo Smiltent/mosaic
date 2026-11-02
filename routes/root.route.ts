@@ -4,7 +4,7 @@ import ejs from "ejs"
 
 const router = new Hono()
 
-async function clientScript(prefix: "menu" | "game" | "global") {
+async function clientScript(prefix: string) {
     for await (const f of Deno.readDir("public/js")) {
         if (f.name.startsWith(`${prefix}.`)) return `/js/${f.name}`
     }

@@ -35,7 +35,8 @@ body {
 
 .defaultButton {
     border: 0;
-    padding: 0.25rem 1rem;
+    padding: 0.3rem 0.85rem;
+    line-height: 1;
 
     cursor: pointer;
 
@@ -72,36 +73,46 @@ body {
 
 .navLeft, .navRight {
     display: flex;
-    gap: 5px;
+    align-items: center;
+    gap: 10px;
 }
 
 .navSplitter {
     width: 1px;
-    margin: 3px 10px;
-    border: 0.5px solid gray;
+    align-self: stretch;
+    margin: 1px 5px;
+    border: 0;
+    background-color: gray;
 }
 
 .energy {
     display: flex;
+    align-items: center;
+    gap: 2px;
 
     color: white;
 
     font-family: Roboto, sans-serif;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
 }
 
 .energy .energyIcon svg {
-    width: 30px;
-    height: 30px;
-    padding: 4px;
+    width: 1.5em;
+    height: 1.5em;
+    padding: 0;
 
     display: block;
 }
 
+.energy .energyText {
+    line-height: 1.1;
+}
+
 .energy .energyText .energyTextBelow {
     color: color-mix(in srgb, white 40%, transparent);
-    font-size: 11px;
+    font-size: 10px;
+    line-height: 1.1;
 }
 
 /*    MAIN    */
