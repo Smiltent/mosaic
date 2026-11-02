@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mosaic</title>
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5+Duo&family=Roboto:ital,wght@0,100..900;1,100..900&family=Tiny5:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="lobby" id="stage">
+        <div class="nav">
+            <div class="navLeft">
+                <button class="defaultButton">Energy Shop</button>
+                <div class="energy">
+                    <div class="energyIcon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
+                            <defs>
+                                <linearGradient id="energyGradient" x1="0" y1="1" x2="0" y2="0">
+                                    <stop offset="0%" stop-color="rgb(191, 134, 29)" />
+                                    <stop offset="100%" stop-color="rgb(247, 224, 12)" />
+                                </linearGradient>
+                            </defs>
+                            <path fill="url(#energyGradient)" d="M434.8 54.1C446.7 62.7 451.1 78.3 445.7 91.9L367.3 288L512 288C525.5 288 537.5 296.4 542.1 309.1C546.7 321.8 542.8 336 532.5 344.6L244.5 584.6C233.2 594 217.1 594.5 205.2 585.9C193.3 577.3 188.9 561.7 194.3 548.1L272.7 352L128 352C114.5 352 102.5 343.6 97.9 330.9C93.3 318.2 97.2 304 107.5 295.4L395.5 55.4C406.8 46 422.9 45.5 434.8 54.1z"/>
+                        </svg>
+                    </div>
+                    <div class="energyText">
+                        <p>
+                            Energy: <span id="energyAmount">9999</span>/<span id="energyMaxAmount">9999</span>
+                        </p>
+                        <p class="energyTextBelow">
+                            More in <span id="energyTimeNext">9:99</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="navSplitter"></div>
+
+                <button class="defaultButton">GitHub</button>
+            </div>
+            <div class="navRight">
+                <button class="defaultButton">Settings</button>
+
+                <form action="/logout" method="POST">
+                    <button class="defaultButton" type="submit">Logout</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="main">
+            <div class="header">
+                <div class="headerH1">
+                    <h1>MOSAIC</h1>
+                    <p class="headerBetaTag">Unreleased</p>
+                </div>
+
+                <p>0 Online - <span id="headerMOTD">Lorem ipsum dolor sit amet!</span></p>
+            </div>
+
+            <div class="content">
+                <div class="contentLeft">
+                    <p>hi</p>
+                </div>
+
+                <div class="contentRight">
+                    <p>h2</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal" hidden>
+
+        </div>
+
+        <div class="modal" hidden>
+
+        </div>
+    </div>
+
+    <script src="<%= script %>"></script>
+    <script src="<%= global %>"></script>
+</body>
+</html>

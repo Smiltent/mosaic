@@ -1,8 +1,8 @@
 
 import { layerOf } from "@/src/shared/blocks.ts"
 
-export const WIDTH = 80
-export const HEIGHT = 45
+export const WIDTH = 25
+export const HEIGHT = 25
 export const SIZE = 16
 
 export const MS_PER_TICK = 10
