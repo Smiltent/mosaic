@@ -23,8 +23,8 @@ export function tileAt(canvas: HTMLCanvasElement, e: MouseEvent) {
 
     const k = (canvas.width / scale(canvas)) / rect.width
 
-    const wx = camX + (e.clientX - rect.left) / k
-    const wy = camY + (e.clientY - rect.top) / k
+    const wx = camX + (e.clientX - rect.left) * k
+    const wy = camY + (e.clientY - rect.top) * k
 
     return {
         x: Math.floor(wx / SIZE),
