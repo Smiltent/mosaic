@@ -1,4 +1,5 @@
 
+import { setZoom, ZOOM } from "@/src/client/handlers/render.ts"
 import { Input } from "@/src/shared/player.ts"
 
 export const input: Input = { left: false, right: false, up: false, down: false, space: false, justSpace: false }
@@ -31,6 +32,13 @@ function setKey(e: KeyboardEvent, down: boolean) {
             }
             input.space = down
             break
+    }
+
+    if (down && e.ctrlKey && (e.code === "Minus" || e.code === "Equal")) {
+        e.preventDefault()
+        setZoom(ZOOM * (e.code === "Equal" ? 1.25 : 0.8))
+        
+        return
     }
 }
 

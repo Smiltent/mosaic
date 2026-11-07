@@ -36,9 +36,11 @@ export function createGame(canvas: HTMLCanvasElement) {
                 }
 
                 {
-                    const s = scale()
+                    const s = scale(canvas)
                     snapCamera(canvas.width / s, canvas.height / s, me)
                 }
+
+                document.querySelector(".loading")?.remove()
                 break
 
             case "place":
@@ -80,7 +82,7 @@ export function createGame(canvas: HTMLCanvasElement) {
         // simulate less than 10t per frame
         acc = Math.min(acc, MS_PER_TICK * 15)
 
-        const s = scale()
+        const s = scale(canvas)
         const viewW = canvas.width / s
         const viewH = canvas.height / s
 

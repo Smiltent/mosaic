@@ -4,19 +4,27 @@ import { camX, camY } from "@/src/client/handlers/camera.ts"
 import { brickSprite } from "@/src/client/utils/bricks.ts"
 import { Player } from "@/src/shared/player.ts"
 
-const GAME_W = WIDTH * SIZE // 1280
-const GAME_H = HEIGHT * SIZE // 720
-export const ZOOM = 1
+const REF_W = 960
+const REF_H = 540
+const GAME_W = WIDTH * SIZE
+const GAME_H = HEIGHT * SIZE
 
-export function scale() {
-    return (devicePixelRatio || 1) * ZOOM
+export let ZOOM = 1
+export function setZoom(z: number) {
+    ZOOM = Math.min(4, Math.max(1, z))
+}
+
+export function scale(canvas: HTMLCanvasElement) {
+    return Math.min(canvas.width / REF_W, canvas.height / REF_H) * ZOOM
 }
 
 export function tileAt(canvas: HTMLCanvasElement, e: MouseEvent) {
     const rect = canvas.getBoundingClientRect()
 
-    const wx = camX + (e.clientX - rect.left) / ZOOM
-    const wy = camY + (e.clientY - rect.top) / ZOOM
+    const k = (canvas.width / scale(canvas)) / rect.width
+
+    const wx = camX + (e.clientX - rect.left) / k
+    const wy = camY + (e.clientY - rect.top) / k
 
     return {
         x: Math.floor(wx / SIZE),
@@ -35,7 +43,7 @@ export function resize(canvas: HTMLCanvasElement, draw: () => void) {
 }
 
 export function draw(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, world: World, me: Player | null, others: Iterable<Player>) {
-    const s = scale()
+    const s = scale(canvas)
     const viewW = canvas.width / s
     const viewH = canvas.height / s
 
@@ -59,8 +67,9 @@ export function draw(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w
         for (let y = y0; y < y1; y++) {
             for (let x = x0; x < x1; x++) {
                 const id = world.get(layer, x, y)
+
                 if (id) {
-                    ctx.drawImage(brickSprite(id), x * SIZE, y * SIZE)
+                    ctx.drawImage(brickSprite(id, layer), x * SIZE, y * SIZE)
                 }
             }
         }
