@@ -48,6 +48,18 @@ body {
     font-weight: 500;
 }
 
+.loading {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+
+    display: grid;
+    place-items: center;
+
+    background-color: #070707;
+    font-family: Tiny5 Duo, sans-serif;
+}
+
 
 
 
@@ -126,21 +138,21 @@ body {
 }
 
 /*    HEADER    */
-.header {
+.main .header {
     color: white;
 }
 
-.header .headerH1 {
+.main .header .headerH1 {
     position: relative;
 }
 
-.header .headerH1 h1 {
+.main .header .headerH1 h1 {
     color: rgb(217, 119, 0);
     line-height: 3rem;
     font-size: 3rem;
 }
 
-.header .headerH1 .headerBetaTag {
+.main .header .headerH1 .headerBetaTag {
     position: absolute;
     top: 0;
     left: 12rem;
@@ -149,7 +161,7 @@ body {
     text-shadow: 2px 0 black, -2px 0 black, 0 2px black, 0 -2px black, 1px 1px black, -1px -1px black, 1px -1px black, -1px 1px black;
 }
 
-.header p {
+.main .header p {
     font-family: Tiny5, sans-serif;
     color: darkgray;
     font-size: 1rem;
@@ -162,21 +174,147 @@ body {
     display: flex;
     gap: 0.5rem;
     padding: 0.5rem 0 0;
+    min-height: 0;
 }
 
 .contentLeft, .contentRight {
-    flex: 1;
     border-radius: 10px;
 }
 
 .contentLeft {
     flex: 2;
     border: 1px solid white;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
 }
 
 .contentRight {
     flex: 3;
     border: 1px solid gray;
+}
+
+.contentLeft .contentLeftHeader {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    justify-content: space-between;
+}
+
+.contentLeft .contentLeftHeader p {
+    font-size: 18px;
+}
+
+.contentLeft .activeGamesButtons {
+    display: flex;
+    position: relative;
+    z-index: 0;
+    margin: 0 3px;
+    gap: 0;
+}
+
+.contentLeft .activeGamesButtons button {
+    background-color: transparent;
+    color: white;
+
+    border: 1px solid gray;
+    border-radius: 6px 6px 0 0;
+    border-bottom: 0;
+    cursor: pointer;
+    flex: 1;
+
+    font-family: Tiny5, sans-serif;
+    font-weight: 400;
+}
+
+.contentLeft .activeGamesButtons button.active {
+    background-color: green;
+}
+
+.contentLeft .activeGamesButtons button.active:first-child::before,
+.contentLeft .activeGamesButtons button.active:last-child::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    width: 10px;
+    height: 10px;
+    background-color: green;
+}
+
+.contentLeft .activeGamesButtons button.active:first-child::before {
+    left: 0;
+}
+
+.contentLeft .activeGamesButtons button.active:last-child::before {
+    right: 0;
+}
+
+.contentLeft .activeGamesButtons button + button {
+    border-left: 0;
+}
+
+.contentLeft .activeGamesButtons button:first-child::after,
+.contentLeft .activeGamesButtons button:last-child::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 100%;
+    width: 1px;
+    height: 5px;
+    background-color: gray;
+}
+
+.contentLeft .activeGamesButtons button:first-child::after {
+    left: 0;
+}
+
+.contentLeft .activeGamesButtons button:last-child::after {
+    right: 0;
+}
+
+.contentLeft .activeGames {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+    min-height: 0;
+    overflow-y: auto;
+    border: 1px solid gray;
+    background-color: black;
+    border-radius: 6px;
+    margin: 0 3px 3px;
+}
+
+.contentLeft .activeGames .game {
+    border-bottom: 1px solid gray;
+    padding: 0.25rem;
+}
+
+.contentLeft .activeGames .game .subtitle {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+
+    font-family: Tiny5, sans-serif;
+    font-size: 14px;
+
+    color: color-mix(in srgb, white 50%, transparent);
+}
+
+.contentLeft .activeGames .game .subtitle :is(span, p) {
+    color: inherit;
+}
+
+.contentLeft .activeGames .game .subtitle > :nth-child(n+3) {
+    color: rgb(217, 119, 0)
+}
+
+
+.contentRight .contentRightHeader {
+    padding: 0.5rem;
+}
+
+.contentRight .contentRightHeader p {
+    font-size: 28px;
 }
 
 
