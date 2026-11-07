@@ -1,0 +1,9 @@
+{
+    "user": [],
+    "mod": [
+        "vanish", "godModeEverywhere", "kickUsers", "banUsers"
+    ],
+    "admin": [
+        "manageWorlds", "manageUsers", "announcements", ""
+    ]
+}

@@ -12,6 +12,7 @@ export default class Honoo {
 
         this.app.use("/js/*", serveStatic({ root: "./public" }))
         this.app.use("/css/*", serveStatic({ root: "./public" }))
+        this.app.use("/packs/*", serveStatic({ root: "./public" }))
 
         this.routes()
         this.start()
