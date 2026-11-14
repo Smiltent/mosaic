@@ -1,16 +1,22 @@
 // deno-lint-ignore-file
 
-import { bootRegister } from "@/src/client/menu/register.ts"
-import { bootLogin } from "@/src/client/menu/login.ts"
 import { bootLobby } from "@/src/client/menu/lobby.ts"
+import { bootForm } from "@/src/client/menu/form.ts";
 
 const stage = document.getElementById("stage")
 
 function mount(path: string) {
     switch (path) {
-        case "/login": bootLogin() 
-        case "/register": bootRegister()
-        case "/lobby": bootLobby()
+        case "/login":
+        case "/register": 
+        case "/verify":
+        case "/forgot":
+        case "/reset":
+            bootForm()
+            break
+        case "/lobby": 
+            bootLobby() 
+            break
     }
 }
 

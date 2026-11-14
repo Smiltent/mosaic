@@ -6,7 +6,7 @@ function hex(a: Uint8Array) {
     return [...a].map((b) => b.toString(16).padStart(2, "0")).join("")
 }
 
-async function derive(password: string, salt: Uint8Array) {
+async function derive(password: string, salt: Uint8Array<ArrayBuffer>) {
     const key = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, [
         "deriveBits"
     ])

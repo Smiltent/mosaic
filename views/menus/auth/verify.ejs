@@ -1,0 +1,17 @@
+
+<!-- Verify Email -->
+<div>
+    <form data-action="/auth/verify" data-next="/lobby" id="auth">
+        <p>We emailed you a 6 digit code, check your e-mail.</p>
+        <input name="code" type="text" placeholder="123456" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6">
+
+        <p id="error"></p>
+
+        <button type="submit">Verify</button>
+    </form>
+
+    <form action="/auth/resend" method="POST">
+        <button type="submit">Resend code</button>
+    </form>
+</div>
+<!--  -->

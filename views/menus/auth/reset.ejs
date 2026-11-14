@@ -1,0 +1,12 @@
+
+<!-- Reset password -->
+<div>
+    <form id="auth" data-action="/auth/reset" data-next="/lobby">
+        <p id="error"></p>
+        <input name="username" type="text" placeholder="Username" required maxlength="16">
+        <input name="code" type="text" placeholder="123456" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6">
+        <input name="password" type="password" placeholder="New password" required minlength="6">
+        <button type="submit">Reset password</button>
+    </form>
+</div>
+<!--  -->
