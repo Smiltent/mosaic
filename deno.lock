@@ -5,12 +5,12 @@
     "jsr:@hono/hono@^4.13.9": "4.13.13",
     "jsr:@std/assert@1": "1.0.19",
     "jsr:@std/internal@^1.0.12": "1.0.14",
-    "npm:@hono/deno@^1.0.3": "1.0.3_hono@4.13.13",
-    "npm:@hono/node-server@^2.1.5": "2.1.5_hono@4.13.13",
+    "npm:@hono/deno@^1.0.3": "1.0.3_hono@4.13.17",
+    "npm:@hono/node-server@^2.1.5": "2.1.5_hono@4.13.17",
     "npm:ejs@^7.0.2": "7.0.2",
     "npm:esbuild@0.24": "0.24.2",
     "npm:esbuild@~0.28.2": "0.28.2",
-    "npm:hono@^4.13.13": "4.13.13",
+    "npm:hono@^4.13.17": "4.13.17",
     "npm:mongoose@^9.11.4": "9.11.4"
   },
   "jsr": {
@@ -289,13 +289,13 @@
       "os": ["win32"],
       "cpu": ["x64"]
     },
-    "@hono/deno@1.0.3_hono@4.13.13": {
+    "@hono/deno@1.0.3_hono@4.13.17": {
       "integrity": "sha512-ZJwnHVp4HvbwKHo+LK0oQyo/pP3Uch3M5x3c7Z+0L9uGA4CzwSyjIJ27U63UJ8AjXDBKpLo1sl2FVNJLApSvzg==",
       "dependencies": [
         "hono"
       ]
     },
-    "@hono/node-server@2.1.5_hono@4.13.13": {
+    "@hono/node-server@2.1.5_hono@4.13.17": {
       "integrity": "sha512-MgP/I06GdvsilDspMk/qmRzpk8LOUStP6jFAbSRi40W09DhoyUn+Mj7eyKICPqeYKybOjVFLVIAQzvu1bfIa7Q==",
       "dependencies": [
         "hono"
@@ -391,8 +391,8 @@
       "scripts": true,
       "bin": true
     },
-    "hono@4.13.13": {
-      "integrity": "sha512-CQ46U0ZkAGmbT/4UxdzzGJpacP2IeKgY4a5/tOI9AABbpOMfK739wfDXmv1usCk+3RkKj1hQy4/fjhiwa2xlrA=="
+    "hono@4.13.17": {
+      "integrity": "sha512-vZIcbkvjOR5hHRWERbGkr8fGfF0GGM1ooYkuH448iO3b2AdVEr3AXZSw4Z3Kn+1L5z0CVoVeyV29VGYmFh05kQ=="
     },
     "kareem@3.4.1": {
       "integrity": "sha512-UlgCAFNAdk/HLSsbfkmbH8pJqpEN52Ek8RG53Ys1i3Q3gbCQruSrWpplZlgIGyDHX/LNoLW97ei3OG43s7UhUA=="
@@ -472,7 +472,7 @@
       "npm:@hono/node-server@^2.1.5",
       "npm:ejs@^7.0.2",
       "npm:esbuild@~0.28.2",
-      "npm:hono@^4.13.13",
+      "npm:hono@^4.13.17",
       "npm:mongoose@^9.11.4"
     ]
   }

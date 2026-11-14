@@ -1,4 +1,6 @@
 
+import "@/src/client/spa.ts"
+
 const WIDTH = 1000
 const HEIGHT = 562.5
 function fitStage() {

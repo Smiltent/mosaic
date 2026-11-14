@@ -29,8 +29,13 @@ body {
 
     width: 1000px;
     height: 562.5px;
+    overflow: hidden;
 
     border: 1px solid #444444;
+}
+
+#stage > * {
+    height: 100%;
 }
 
 .defaultButton {

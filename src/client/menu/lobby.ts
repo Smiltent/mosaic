@@ -1,10 +1,5 @@
 
-const NAMEKEY = "mosaic.username"
 export function bootLobby() {
-    const root = document.getElementById("lobby")!
-    const sub = document.getElementById("lobby-subtext")!
-
-
     document.querySelectorAll<HTMLButtonElement>(".activeGamesButtons button").forEach((elm) => {
         elm.addEventListener("click", () => {
             document.querySelectorAll(".activeGamesButtons button").forEach((b) => {
@@ -13,6 +8,10 @@ export function bootLobby() {
 
             elm.classList.add("active")
         })
+    })
+
+    document.getElementById("githubBtn")?.addEventListener("click", (e) => {
+        e.preventDefault()
     })
 }
 

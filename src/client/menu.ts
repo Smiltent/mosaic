@@ -1,3 +1,3 @@
 
-import { bootLobby } from "@/src/client/menu/main.ts"
+import { bootLobby } from "@/src/client/menu/lobby.ts"
 bootLobby()
