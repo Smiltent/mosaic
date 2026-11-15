@@ -218,7 +218,7 @@ body {
 /*    NAVIGATION    */
 .nav {
     display: flex;
-    border-bottom: 1px solid #444444;
+    border-bottom: 1px solid var(--gray-700);
     justify-content: space-between;
 
     padding: 5px 10px;
@@ -239,7 +239,7 @@ body {
     align-self: stretch;
     margin: 1px 5px;
     border: 0;
-    background-color: gray;
+    background-color: var(--gray-500);
 }
 
 .energy {
@@ -292,7 +292,7 @@ body {
 }
 
 .main .header .headerH1 h1 {
-    color: rgb(217, 119, 0);
+    color: var(--gold-600);
     line-height: 3rem;
     font-size: 3rem;
 }
@@ -308,7 +308,7 @@ body {
 
 .main .header p {
     font-family: Tiny5, sans-serif;
-    color: darkgray;
+    color: var(--text-muted);
     font-size: 1rem;
     font-weight: 500;
 }
@@ -336,7 +336,7 @@ body {
 
 .contentRight {
     flex: 3;
-    border: 1px solid gray;
+    border: 1px solid var(--gray-500);
 }
 
 .contentLeft .contentLeftHeader {
@@ -362,7 +362,7 @@ body {
     background-color: transparent;
     color: white;
 
-    border: 1px solid gray;
+    border: 1px solid var(--gray-500);
     border-radius: 6px 6px 0 0;
     border-bottom: 0;
     cursor: pointer;
@@ -406,7 +406,7 @@ body {
     top: 100%;
     width: 1px;
     height: 5px;
-    background-color: gray;
+    background-color: var(--gray-500);
 }
 
 .contentLeft .activeGamesButtons button:first-child::after {
@@ -423,14 +423,14 @@ body {
     z-index: 1;
     min-height: 0;
     overflow-y: auto;
-    border: 1px solid gray;
+    border: 1px solid var(--gray-500);
     background-color: black;
     border-radius: 6px;
     margin: 0 3px 3px;
 }
 
 .contentLeft .activeGames .game {
-    border-bottom: 1px solid gray;
+    border-bottom: 1px solid var(--gray-500);
     padding: 0.25rem;
 }
 
@@ -450,9 +450,8 @@ body {
 }
 
 .contentLeft .activeGames .game .subtitle > :nth-child(n+3) {
-    color: rgb(217, 119, 0)
+    color: var(--gold-600)
 }
-
 
 .contentRight .contentRightHeader {
     padding: 0.5rem;
