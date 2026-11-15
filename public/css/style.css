@@ -424,9 +424,14 @@ body {
     min-height: 0;
     overflow-y: auto;
     border: 1px solid var(--gray-500);
+    scrollbar-width: none;
     background-color: black;
     border-radius: 6px;
     margin: 0 3px 3px;
+}
+
+.contentLeft .activeGames::-webkit-scrollbar {
+    display: hidden;
 }
 
 .contentLeft .activeGames .game {
