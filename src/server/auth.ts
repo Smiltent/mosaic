@@ -31,11 +31,12 @@ export async function verifyPassword(password: string, stored: string) {
     return hex(await derive(password, salt)) === hash
 }
 
+// session
 export async function setSession(c: Context, uid: string) {
     await setSignedCookie(c, "session", uid, process.env.SESSION_SECRET!, {
         httpOnly: true,
         sameSite: "Lax",
-        path: "/"
+        path: "/",
     })
 }
 
@@ -45,4 +46,22 @@ export function clearSession(c: Context) {
 
 export async function getSession(c: Context) {
     return (await getSignedCookie(c, process.env.SESSION_SECRET!, "session")) || null
+}
+
+// reset
+export async function setReset(c: Context, uid: string) {
+    await setSignedCookie(c, "reset", uid, process.env.SESSION_SECRET!, {
+        httpOnly: true,
+        sameSite: "Lax",
+        path: "/",
+        maxAge: 10 * 60
+    })
+}
+
+export function clearReset(c: Context) {
+    deleteCookie(c, "reset", { path: "/" })
+}
+
+export async function getReset(c: Context) {
+    return (await getSignedCookie(c, process.env.SESSION_SECRET!, "reset")) || null
 }

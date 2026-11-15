@@ -1,37 +1,69 @@
 
+:root {
+    --game-padding-all-around: 10rem;
+
+    --gray-500: gray;
+    --gold-500: #fe640b; /* catpuchin latte peach */
+    --red-500: #e64553; /* catpuchin latte maroon */
+
+    /* gray */
+    --gray-900: color-mix(in oklab, var(--gray-500), black 85%);
+    --gray-800: color-mix(in oklab, var(--gray-500), black 70%);
+    --gray-700: color-mix(in oklab, var(--gray-500), black 55%);
+    --gray-600: color-mix(in oklab, var(--gray-500), black 30%);
+    --gray-400: color-mix(in oklab, var(--gray-500), white 30%);
+    --gray-300: color-mix(in oklab, var(--gray-500), white 50%);
+    --gray-200: color-mix(in oklab, var(--gray-500), white 70%);
+    --gray-100: color-mix(in oklab, var(--gray-500), white 85%);
+
+    /* gold */
+    --gold-600: color-mix(in oklab, var(--gold-500), black 15%);
+    --gold-700: color-mix(in oklab, var(--gold-500), black 30%);
+    --gold-800: color-mix(in oklab, var(--gold-500), black 50%);
+    --gold-900: color-mix(in oklab, var(--gold-500), black 70%);
+
+    /* red */
+    --red-600: color-mix(in oklab, var(--red-500), black 15%);
+    --red-700: color-mix(in oklab, var(--red-500), black 30%);
+    --red-800: color-mix(in oklab, var(--red-500), black 50%);
+    --red-900: color-mix(in oklab, var(--red-500), black 70%);
+
+    /* aliases */
+    --text: var(--gray-100);
+    --text-muted: var(--gray-400);
+    --danger: var(--red-500);
+    --gold: var(--gold-500);
+}
+
 * {
     padding: 0;
     margin: 0;
 
     box-sizing: border-box;
     text-decoration: none;
-    color: white;
-}
-
-:root {
-    --game-padding-all-around: 10rem;
+    color: var(--text);
 }
 
 body {
     margin: 0;
+    padding: var(--game-padding-all-around);
     min-height: 100dvh;
 
-    padding: var(--game-padding-all-around);
     display: grid;
     place-items: center;
-    background-color: #070707;
+
+    background-color: var(--gray-900);
 }
 
 #stage {
     position: relative;
     aspect-ratio: 16 / 9;
-    /* width: min(100%, calc((100dvh - (var(--game-padding-all-around) * 2)) * 16 / 9)); */
+    overflow: hidden;
 
     width: 1000px;
     height: 562.5px;
-    overflow: hidden;
 
-    border: 1px solid #444444;
+    border: 1px solid var(--gray-700);
 }
 
 #stage > * {
@@ -61,17 +93,125 @@ body {
     display: grid;
     place-items: center;
 
-    background-color: #070707;
+    background-color: var(--gray-900);
     font-family: Tiny5 Duo, sans-serif;
 }
 
-
-
-
-/*! in lobby */
 .lobby {
     display: flex;
     flex-direction: column;
+}
+
+/*    AUTH    */
+.auth {
+    height: 100%;
+    display: grid;
+    place-items: start center;
+    align-content: space-between;
+
+    padding: 3rem 0;
+
+    font-family: Tiny5 Duo, sans-serif;
+}
+
+.authCard {
+    width: 320px;
+    padding: 1.25rem;
+    gap: 0.75rem;
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid var(--gray-700);
+    border-radius: 10px;
+
+    background-color: var(--gray-800);
+}
+
+.authCard h1 {
+    text-align: center;
+    font-size: 2.25rem;
+    line-height: 2.25rem;
+
+    color: var(--text)
+}
+
+.authCard .authSub {
+    text-align: center;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.authCard form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem
+}
+
+.authCard input {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--gray-700);
+    background-color: var(--gray-900);
+    color: var(--text);
+
+    font-family: Tiny5, sans-serif;
+    font-size: 14px;
+    outline: none;
+}
+
+.authCard input[name="code"] {
+    text-align: center;
+    letter-spacing: 0.75rem;
+    font-size: 18px;
+}
+
+.authCard button[type="submit"] {
+    margin-top: 0.25rem;
+    padding: 0.5rem;
+    cursor: pointer;
+
+    border: 0;
+    border-radius: 5px;
+
+    background-color: var(--gold);
+    color: var(--gray-900);
+
+    font-family: Tiny5 Duo, sans-serif;
+    font-size: 16px;
+}
+
+.authCard .authAlt button {
+    background: none;
+    border: 0;
+    cursor: pointer;
+    color: var(--text-muted);
+    font-family: Tiny5, sans-serif;
+    text-decoration: underline;
+}
+
+.authCard #error {
+    text-align: center;
+    font-family: Tiny5, sans-serif;
+    color: var(--danger);
+}
+
+.authFooter {
+    text-align: center;
+    font-family: Tiny5, sans-serif;
+    color: var(--text-muted);
+}
+
+.authFooter a {
+    color: var(--gold-700);
+}
+
+.authCard cap-widget {
+    --cap-background: var(--gray-700);
+    --cap-color: var(--text);
+    --cap-checkbox-background: white;
+    --cap-border-color: transparent;
+    --cap-border-radius: 5px;
+
+    margin: 0 auto;
 }
 
 

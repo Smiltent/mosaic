@@ -1,13 +1,22 @@
 
 <!-- Login -->
-<div>
-    <form data-action="/auth/login" data-next="/lobby" id="auth">
-        <input name="username" type="text" placeholder="Username" required maxlength="16">
-        <input name="password" type="password" placeholder="Password" required>
-        <p id="error"></p>
+<div class="auth">
+    <div class="authCard">
+        <h1>MOSAIC</h1>
+        <p>Welcome back!</p>
+        <form data-action="/auth/login" data-next="/lobby" id="auth">
+            <input name="username" type="text" placeholder="Username" required maxlength="16">
+            <input name="password" type="password" placeholder="Password" required>
+            <p id="error"></p>
 
-        <button type="submit">Login</button>
-    </form>
-    <p>New here? <a href="/register">Create an account</a> <a href="/forgot">Forgot your password?</a></p>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <p class="authFooter">
+        New here? <a href="/register">Create an account</a>
+        <br>
+        <a href="/forgot">Forgot your password?</a>
+    </p>
 </div>
 <!--  -->

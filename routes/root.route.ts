@@ -1,5 +1,5 @@
 
-import { getSession } from "@/src/server/auth.ts"
+import { getReset, getSession } from "@/src/server/auth.ts"
 import { Context, Hono } from "hono"
 import User from "@/models/User.ts"
 import ejs from "ejs"
@@ -31,7 +31,7 @@ async function spaRender(c: Context, view: string, title: string, data: Record<s
 
 router.get("/", async (c) => {
     if (await getSession(c)) return c.redirect("/lobby")
-    c.redirect("/login")
+    return c.redirect("/login")
 })
 
 router.get("/login", async (c) => {
@@ -50,12 +50,15 @@ router.get("/verify", async (c) => {
 })
 
 router.get("/forgot", (c) => spaRender(c, "menus/auth/forgot.ejs", "Forgot password"))
-router.get("/reset", (c) => spaRender(c, "menus/auth/reset.ejs", "Reset password"))
+router.get("/reset", async (c) => {
+    if (!await getReset(c)) return c.redirect("/forgot")
+    return spaRender(c, "menus/auth/reset.ejs", "Reset password")
+})
 
 router.get("/lobby", async (c) => {
     const id = await getSession(c)
     const user = id && await User.findById(id)
-    if (!user) return c.redirect("/login")
+    // if (!user) return c.redirect("/login")
 
     return spaRender(c, "menus/lobby.ejs", "Lobby", { user })
 })

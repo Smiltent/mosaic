@@ -1,11 +1,21 @@
 
 <!-- Forgot password -->
-<div>
-    <form id="auth" data-action="/auth/forgot" data-next="/reset">
-        <p id="error"></p>
-        <p>Enter your username, we'll email a reset code.</p>
-        <input name="username" type="text" placeholder="Username" required maxlength="16">
-        <button type="submit">Send code</button>
-    </form>
+<div class="auth">
+    <div class="authCard">
+        <h1>MOSAIC</h1>
+
+        <form id="auth" data-action="/auth/forgot" data-next="/reset">
+            <p>Enter your username, we'll email a reset code.</p>
+
+            <input name="username" type="text" placeholder="Username" required maxlength="16">
+            <input type="email" name="email" placeholder="Email" required>
+
+            <p id="error"></p>
+
+            <button type="submit">Send code</button>
+        </form>
+    </div>
+
+    <p class="authFooter"><a href="/login">Back to login</a></p>
 </div>
 <!--  -->

@@ -1,12 +1,21 @@
 
 <!-- Reset password -->
-<div>
-    <form id="auth" data-action="/auth/reset" data-next="/lobby">
-        <p id="error"></p>
-        <input name="username" type="text" placeholder="Username" required maxlength="16">
-        <input name="code" type="text" placeholder="123456" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6">
-        <input name="password" type="password" placeholder="New password" required minlength="6">
-        <button type="submit">Reset password</button>
-    </form>
+<div class="auth">
+    <div class="authCard">
+        <h1>MOSAIC</h1>
+
+        <form id="auth" data-action="/auth/reset" data-next="/lobby">
+            <input name="code" type="text" placeholder="123456" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6">
+            <input name="password" type="password" placeholder="New password" required minlength="6">            
+            <input name="password" type="password" placeholder="Confirm new password" required minlength="6">
+
+
+            <p id="error"></p>
+
+            <button type="submit">Reset password</button>
+        </form>
+    </div>
+
+    <p class="authFooter">Didn't get a code? <a href="/forgot">Request a new one</a></p>
 </div>
 <!--  -->

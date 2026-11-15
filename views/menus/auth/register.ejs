@@ -1,16 +1,22 @@
 
 <!-- Register -->
-<div>
-    <form data-action="/auth/register" data-next="/verify" id="auth">
-        <input name="username" type="text" placeholder="Username" required maxlength="16">
-        <input name="email" type="email" placeholder="Email" required>
-        <input name="password" type="password" placeholder="Password" required minlength="6">
+<div class="auth">
+    <div class="authCard">
+        <h1>MOSAIC</h1>
+        <p>Create your account!</p>
 
-        <p id="error"></p>
+        <form data-action="/auth/register" data-next="/verify" id="auth">
+            <input name="username" type="text" placeholder="Username" required maxlength="16">
+            <input name="email" type="email" placeholder="Email" required>
+            <input name="password" type="password" placeholder="Password" required minlength="6">
 
-        <cap-widget data-cap-api-endpoint="<%= capUrl %>/"></cap-widget>
-        <button type="submit">Register</button>
-    </form>
-    <p>Have an account? <a href="/login">Login</a>.</p>
+            <p id="error"></p>
+
+            <cap-widget data-cap-api-endpoint="<%= capUrl %>/"></cap-widget>
+            <button type="submit">Register</button>
+        </form>
+    </div>
+
+    <p class="authFooter">Have an account? <a href="/login">Login</a>.</p>
 </div>
 <!--  -->

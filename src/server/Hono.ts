@@ -1,4 +1,5 @@
 
+import authRoute from "@/routes/auth.route.ts"
 import rootRoute from "@/routes/root.route.ts"
 import wsRoute from "@/routes/ws.route.ts"
 import { serveStatic } from "@hono/deno"
@@ -19,6 +20,7 @@ export default class Honoo {
     }
 
     private routes() {
+        this.app.route("/auth", authRoute)
         this.app.route("/", rootRoute)
         this.app.route("/", wsRoute)
     }

@@ -1,10 +1,10 @@
 
-import { clearSession, getSession, hashPassword, setSession, verifyPassword } from "@/src/server/auth.ts"
+import { clearReset, clearSession, getSession, hashPassword, setReset, setSession, verifyPassword } from "@/src/server/auth.ts"
 import { ratelimit } from "@/util/ratelimit.ts"
-import { Hono } from "hono"
+import { sendCode } from "@/src/server/SMTP.ts"
+import captcha from "@/util/captcha.ts"
 import User from "@/models/User.ts"
-import captcha from "@/util/captcha.ts";
-import { sendCode } from "@/src/server/SMTP.ts";
+import { Hono } from "hono"
 
 const router = new Hono()
 
@@ -99,15 +99,16 @@ router.post("/resend", ratelimit(5 * 60 * 1000, 1), async (c) => {
 })
 
 router.post("/forgot", later, async (c) => {
-    const { username } = await c.req.json().catch(() => ({}))
-    const user = username && await User.findOne({ username })
+    const { username, email } = await c.req.json().catch(() => ({}))
+    const user = username && email && await User.findOne({ username })
 
-    if (user) {
+    if (user && user.email === email) {
         const code = sixDigits()
         user.resetCode = code
         user.resetExpires = new Date(Date.now() + CODE_TTS_MS)
 
         await user.save()
+        await setReset(c, user.id)
         await sendCode(user.email, code, "Reset your Mosaic accounts password").catch((e) => console.error(`failed to send email: ${e}`))
     }
 
@@ -126,6 +127,7 @@ router.post("/reset", later, async (c) => {
     user.resetExpires = undefined
     await user.save()
 
+    clearReset(c)
     await setSession(c, user.id)
     return c.json({ ok: true })
 })
