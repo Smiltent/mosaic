@@ -13,7 +13,7 @@ type RemotePlayer = Player & { tx: number, ty: number }
 
 export function createGame(canvas: HTMLCanvasElement) {
     const ctx = canvas.getContext("2d")!
-    const world = new World()
+    const world = new World(0, 0)
 
     const others = new Map<number, RemotePlayer>()
     let me: Player | null = null
@@ -27,9 +27,13 @@ export function createGame(canvas: HTMLCanvasElement) {
     function handleMessage(msg: ServerMessage) {
         switch (msg.type) {
             case "init": 
-                msg.world.forEach((tiles, layer) => world.layers[layer].set(tiles))
                 me = { id: msg.id, x: msg.x, y: msg.y, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tileQueue: [0, 0], color: msg.color }
                 others.clear()
+
+                world.width = msg.w
+                world.height = msg.h
+                world.layers = [new Uint16Array(msg.w * msg.h), new Uint16Array(msg.w * msg.h)]
+                msg.world.forEach((tiles, layer) => world.layers[layer].set(tiles))
 
                 for (const p of msg.players) {
                     others.set(p.id, { ...p, tx: p.x, ty: p.y })
@@ -51,13 +55,12 @@ export function createGame(canvas: HTMLCanvasElement) {
                 others.set(msg.id, { ...msg, speedX: 0, speedY: 0, onGround: false, jumpCount: 0, maxJumps: 1, lastJump: 0, tileQueue: [0, 0], tx: msg.x, ty: msg.y })
                 break
 
-            // deno-lint-ignore no-case-declarations -- temp
-            case "move":
-                const p = others.get(msg.id)
-                if (p) {
-                    p.tx = msg.x
-                    p.ty = msg.y
-                }
+                case "moves":
+                    for (const m of msg.players) {
+                        if (m.id === me?.id) continue
+                        const p = others.get(m.id)
+                        if (p) { p.tx = m.x; p.ty = m.y; p.speedX = m.speedX; p.speedY = m.speedY }
+                    }
                 break
             
             case "leave":
@@ -70,11 +73,7 @@ export function createGame(canvas: HTMLCanvasElement) {
         draw(canvas, ctx, world, me, others.values())
     }
 
-    let lastSent = 0
-    let lastSentX = NaN
-    let lastSentY = NaN
-    let lastSentSX = NaN
-    let lastSentSY = NaN
+    let lastInputKey = ""
     function frame(now: number) {
         acc += now - last
         last = now
@@ -101,27 +100,11 @@ export function createGame(canvas: HTMLCanvasElement) {
             p.y += (p.ty - p.y) * 0.2
         }
 
-        if (me && now - lastSent > 66) {
-            const changed = 
-                me.x !== lastSentX
-                || me.y !== lastSentY
-                || me.speedX !== lastSentSX
-                || me.speedY !== lastSentSY
-
-            if (changed) {
-                lastSent = now
-                lastSentX = me.x
-                lastSentY = me.y
-                lastSentSX = me.speedX
-                lastSentSY = me.speedY
-
-                net.send({
-                    type: "move",
-                    x: me.x,
-                    y: me.y,
-                    speedX: me.speedX,
-                    speedY: me.speedY
-                })
+        if (me) {
+            const key = `${input.left}${input.right}${input.up}${input.down}${input.space}`
+            if (key !== lastInputKey) {
+                lastInputKey = key
+                net.send({ type: "input", left: input.left, right: input.right, up: input.up, down: input.down, space: input.space })
             }
         }
 

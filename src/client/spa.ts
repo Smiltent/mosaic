@@ -61,6 +61,7 @@ function shouldIntercept(a: HTMLAnchorElement, e: MouseEvent) {
     const href = a.getAttribute("href") ?? ""
     if (!href || href.startsWith("#")) return false
     if (a.pathname.startsWith("/public")) return false
+    // if (a.pathname.startsWith("/game")) return false
 
     return true
 }

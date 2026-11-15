@@ -1,0 +1,42 @@
+{
+    "1": {
+        "name": "Small World",
+        "w": 25,
+        "h": 25
+    },
+    "2": {
+        "name": "Medium World",
+        "w": 50,
+        "h": 50
+    },
+    "3": {
+        "name": "Large World",
+        "w": 100,
+        "h": 100
+    },
+    "4": {
+        "name": "Bigger World",
+        "w": 150,
+        "h": 150
+    },
+    "5": {
+        "name": "Massive World",
+        "w": 200,
+        "h": 200
+    },
+    "6": {
+        "name": "Tall World",
+        "w": 100,
+        "h": 400
+    },
+    "7": {
+        "name": "Wide World",
+        "w": 400,
+        "h": 100
+    },
+    "8": {
+        "name": "\"Infinite\" World",
+        "w": 1000,
+        "h": 1000
+    }
+}

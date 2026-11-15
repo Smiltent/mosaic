@@ -1,5 +1,8 @@
 
+import worldTypes from "@/src/shared/definitions/worlds.json" with { type: "json" }
 import { getReset, getSession } from "@/src/server/auth.ts"
+import { rooms } from "@/src/server/room.ts"
+import World from "@/models/World.ts"
 import { Context, Hono } from "hono"
 import User from "@/models/User.ts"
 import ejs from "ejs"
@@ -58,13 +61,43 @@ router.get("/reset", async (c) => {
 router.get("/lobby", async (c) => {
     const id = await getSession(c)
     const user = id && await User.findById(id)
-    // if (!user) return c.redirect("/login")
+    if (!user) return c.redirect("/login")
 
-    return spaRender(c, "menus/lobby.ejs", "Lobby", { user })
+    const now = Date.now()
+    const msPerEnergy = 3600000 / user.energyPerHour
+    if (!user.lastEnergyAt) {
+        user.lastEnergyAt = new Date(now)
+    }
+
+    if (user.energy < user.maxEnergy) {
+        const gained = Math.floor((now - user.lastEnergyAt.getTime()) / msPerEnergy)
+        if (gained > 0) {
+            user.energy = Math.min(user.maxEnergy, user.energy + gained)
+            user.lastEnergyAt = new Date(user.lastEnergyAt.getTime() + gained * msPerEnergy)
+
+            await user.save()
+        }
+    }
+
+    const energyNext = user.energy < user.maxEnergy
+        ? Math.ceil((msPerEnergy - (now - user.lastEnergyAt.getTime())) / 1000)
+        : 0
+
+    const worlds = (await World.find()).map((w) => ({
+        id: w.id,
+        name: w.name,
+        likes: w.likes,
+        plays: w.plays,
+        online: rooms.get(w.id)?.players.size ?? 0
+    }))
+
+    return spaRender(c, "menus/lobby.ejs", "Lobby", { user, worlds, worldTypes, energyNext })
 })
 
 router.get("/game/:id", async (c) => {
     if (!await getSession(c)) return c.redirect("/login")
+    if (!await World.exists({ _id: c.req.param("id") })) return c.notFound()
+
     return c.html(await ejs.renderFile("views/game.ejs", { script: await clientScript("game"), global: await clientScript("global"), id: c.req.param("id") }))
 })
 

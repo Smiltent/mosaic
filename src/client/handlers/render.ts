@@ -1,13 +1,11 @@
 
-import { WIDTH, SIZE, HEIGHT, World, BG, FG } from "@/src/shared/world.ts"
+import { SIZE, World, BG, FG } from "@/src/shared/world.ts"
 import { camX, camY } from "@/src/client/handlers/camera.ts"
 import { brickSprite } from "@/src/client/utils/bricks.ts"
 import { Player } from "@/src/shared/player.ts"
 
 const REF_W = 960
 const REF_H = 540
-const GAME_W = WIDTH * SIZE
-const GAME_H = HEIGHT * SIZE
 
 export let ZOOM = 1
 export function setZoom(z: number) {
@@ -56,12 +54,12 @@ export function draw(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w
 
     // play area
     ctx.fillStyle = "#565656"
-    ctx.fillRect(0, 0, GAME_W, GAME_H)
+    ctx.fillRect(0, 0, world.width * SIZE, world.height * SIZE)
 
     const x0 = Math.max(0, Math.floor(camX / SIZE) - 1)
     const y0 = Math.max(0, Math.floor(camY / SIZE) - 1)
-    const x1 = Math.min(WIDTH, Math.ceil((camX + viewW) / SIZE) + 1)
-    const y1 = Math.min(HEIGHT, Math.ceil((camY + viewH) / SIZE) + 1)
+    const x1 = Math.min(world.width, Math.ceil((camX + viewW) / SIZE) + 1)
+    const y1 = Math.min(world.height, Math.ceil((camY + viewH) / SIZE) + 1)
 
     for (const layer of [BG, FG] as const) {
         for (let y = y0; y < y1; y++) {

@@ -2,19 +2,16 @@
 import mongoose, { Schema } from "mongoose"
 
 const WorldSchema = new Schema({
-    name: { type: String, required: true, trim: true, max: 32 },
+    name: { type: String, required: true, trim: true, maxlength: 32 },
     owner: { type: Schema.Types.ObjectId, ref: "User", required: true },
 
     // world definition
-    width: { type: Number },
-    height: { type: Number },
-    layers: { type: [[Number]], required: true },
+    width: { type: Number, required: true },
+    height: { type: Number, required: true },
+    type: { type: String, required: true },
+    layers: { type: [Buffer], required: true },
 
-    // world config
-    
-    /* ... */
-
-    plays: { type: Number, defualt: 0 },
+    plays: { type: Number, default: 0 },
     likes: { type: Number, default: 0 }
 }, { timestamps: true })
 

@@ -1,32 +1,33 @@
 
 import { layerOf } from "@/src/shared/blocks.ts"
 
-export const WIDTH = 25
-export const HEIGHT = 25
 export const SIZE = 16
-
 export const MS_PER_TICK = 10
 
 export const FG = 0
 export const BG = 1
 
 export class World {
-    public layers = [new Uint16Array(WIDTH * HEIGHT), new Uint16Array(WIDTH * HEIGHT)]
+    public layers: Uint16Array[]
+
+    constructor(public width: number, public height: number) {
+        this.layers = [new Uint16Array(width * height), new Uint16Array(width * height)]
+    }
 
     public get(layer: number, x: number, y: number) {
-        return this.layers[layer][y * WIDTH + x]
+        return this.layers[layer][y * this.width + x]
     }
 
     public set(layer: number, x: number, y: number, id: number) {
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return
-        this.layers[layer][y * WIDTH + x] = id
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return
+        this.layers[layer][y * this.width + x] = id
     }
 
     public setTile(layer: number, x: number, y: number, id: number) {
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return false
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return false
         if (this.get(layer, x, y) === id) return false
 
-        this.layers[layer][y * WIDTH + x] = id
+        this.layers[layer][y * this.width + x] = id
 
         return true
     }
@@ -36,7 +37,7 @@ export class World {
     }
 
     public isSolid(x: number, y: number) {
-        if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) return true 
-        return this.layers[FG][y * WIDTH + x] === 1
+        if (x < 0 || x >= this.width || y < 0 || y >= this.height) return true 
+        return this.layers[FG][y * this.width + x] === 1
     }
 }

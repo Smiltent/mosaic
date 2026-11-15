@@ -8,8 +8,8 @@
                 <div class="energyIcon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                         <defs>
-                            <linearGradient id="energyGradient" x1="0" y1="1" x2="0" y2="0">
-                                <stop offset="0%" stop-color="rgb(191, 134, 29)" />
+                            <linearGradient id="energyGradient" gradientUnits="userSpaceOnuse" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0%" stop-color="#fe640b" />
                                 <stop offset="100%" stop-color="rgb(247, 224, 12)" />
                             </linearGradient>
                         </defs>
@@ -18,17 +18,17 @@
                 </div>
                 <div class="energyText">
                     <p>
-                        Energy: <span id="energyAmount">9999</span>/<span id="energyMaxAmount">9999</span>
+                        Energy: <span id="energyAmount"><%= user.energy %></span>/<span id="energyMaxAmount"><%= user.maxEnergy %></span>
                     </p>
                     <p class="energyTextBelow">
-                        More in <span id="energyTimeNext">9:99</span>
+                        More in <span id="energyTimeNext" data-secs="<%= energyNext %>">--:--</span>
                     </p>
                 </div>
             </div>
 
             <div class="navSplitter"></div>
 
-            <button class="defaultButton">GitHub</button>
+            <button class="defaultButton" id="githubBtn">GitHub</button>
         </div>
         <div class="navRight">
             <button class="defaultButton">Settings</button>
@@ -59,52 +59,59 @@
                     <button class="active">Online</button>
                     <button>Liked</button>
                     <button>Friends</button>
-                    <button>Mine</button>
+                    <button>Owned</button>
                 </div>
                 <div class="activeGames">
-                    <div class="game">
-                        <div class="title">
-                            <p>Example Game</p>
+                    <% for (const w of worlds) { %>
+                        <div class="game" data-game-redirect="/game/<%= w.id %>">
+                            <div class="title">
+                                <p><%= w.name %></p>
+                            </div>
+                            <div class="subtitle">
+                                <span><%= w.online %> Online</span><p>-</p><span><%= w.likes %> Liked</span><p>-</p><span><%= w.plays %> Plays</span>
+                            </div>
                         </div>
-                        <div class="subtitle">
-                            <span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span>
-                        </div>
-                    </div>
-
-                    <!-- ... -->
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <div class="game"><div class="title"><p>Example Game</p></div><div class="subtitle"><span>00 Online</span><p>-</p><span>000 Liked</span><p>-</p><span>0000 Plays</span></div></div>
-                    <!-- ... -->
+                    <% } %>
                 </div>
             </div>
 
             <div class="contentRight">
                 <div class="contentRightHeader">
-                    <p>USERNAME</p>
+                    <p><%= user.username %></p>
+                </div>
+
+                <div class="contentRightSmiley">
+
+                </div>
+
+                <div class="extraInfoButtons">
+                    <button class="active">Friends</button>
+                    <button>Worlds</button>
+                    <button>Items</button>
+                    <button>Wishlist</button>
+                </div>
+
+                <div class="extraInfo">
+                    <form id="createWorld" data-action="/worlds">
+                        <input type="text" name="name" placeholder="World name" maxlength="32" required>
+                        <select name="type">
+                            <% for (const [id, t] of Object.entries(worldTypes)) { %>
+                                <option value="<%= id %>"><%= t.name %></option>
+                            <% } %>
+                        </select>
+                        <button class="defaultButton" type="submit">Create</button>
+                    </form>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal" hidden>
+        <div class="modal">
+            
+        </div>
 
-    </div>
+        <div class="modal">
 
-    <div class="modal" hidden>
-
+        </div>
     </div>
 </div>
 <!--  -->

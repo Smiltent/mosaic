@@ -1,7 +1,7 @@
 
 import { Block, BuoyancyBlocks, DragBlocks, GRAVITY, GravityBlocks, isLiquid, LiquidDrag } from "@/src/shared/blocks.ts"
-import { FG, HEIGHT, SIZE, WIDTH, World } from "@/src/shared/world.ts"
 import { Input, Player } from "@/src/shared/player.ts"
+import { FG, SIZE, World } from "@/src/shared/world.ts"
 
 export const JUMP = 26
 export const BOOST = 16
@@ -10,7 +10,7 @@ export const DEADZONE = 0.0001
 export const MULT = 7.752
 
 function overlaps(w: World, x: number, y: number) {
-    if (x < 0 || y < 0 || x > WIDTH * SIZE - SIZE || y > HEIGHT * SIZE - SIZE) return true
+    if (x < 0 || y < 0 || x > w.width * SIZE - SIZE || y > w.height * SIZE - SIZE) return true
 
     const ox = x >> 4
     const oy = y >> 4

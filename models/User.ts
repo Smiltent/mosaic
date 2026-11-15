@@ -16,10 +16,12 @@ const UserSchema = new Schema({
     energy: { type: Number, default: 200 },
     maxEnergy: { type: Number, default: 200 },
     energyPerHour: { type: Number, default: 20 },
+    lastEnergyAt: { type: Date, default: Date.now },
 
     smiley: { type: Number, default: 1 },
     aura: { type: Number, default: 1 },
 
+    ownedWorlds: { type: Map, default: { "1": 1 } },
     ownedSmileys: { type: [Number], default: [1,2,3,4,5,6,7,8,9,10] },
     ownedAuras: { type: [Number], default: [1] }
 }, { timestamps: true })

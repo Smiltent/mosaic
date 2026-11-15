@@ -1,18 +1,20 @@
 
 import { ClientMessage, ServerMessage } from "@/src/shared/messages.ts"
+import { decodeServer, encodeClient } from "@/src/shared/proto.ts"
 
 export type MessageHandler = (msg: ServerMessage) => void
 export function connect(onMessage: MessageHandler) {
-    const ws = new WebSocket(`ws://${location.host}/ws`)
+    const ws = new WebSocket(`${location.protocol === "https:" ? "wss" : "ws"}://${location.host}/ws?world=${document.body.dataset.room}`)
+    ws.binaryType = "arraybuffer"
 
     ws.onmessage = (e) => {
-        const msg = JSON.parse(e.data) as ServerMessage
-        onMessage(msg)
+        if (typeof e.data === "string") return
+        onMessage(decodeServer(e.data))
     }
 
     return {
         send(msg: ClientMessage) {
-            ws.send(JSON.stringify(msg))
+            ws.send(encodeClient(msg))
         }
     }
 }

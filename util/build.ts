@@ -11,7 +11,8 @@ export default async function build() {
     
     const entries = [
         { entry: "src/client/menu.ts", name: "menu" },
-        { entry: "src/client/global.ts", name: "global" }
+        { entry: "src/client/global.ts", name: "global" },
+        { entry: "src/client/game.ts", name: "game" }
     ]
     
     for (const { entry, name } of entries) {
