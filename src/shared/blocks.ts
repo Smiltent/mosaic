@@ -2,7 +2,7 @@
 import blocks from "@/src/shared/definitions/blocks.json" with { type: "json" }
 
 const SOLID = new Set(
-    Object.values(blocks).flat()
+    Object.values(blocks).flatMap(subs => Object.values(subs).flat())
         .filter(ref => ref.startsWith("fg.") && ref !== "fg.0")
         .map(ref => Number(ref.slice(3)))
 )

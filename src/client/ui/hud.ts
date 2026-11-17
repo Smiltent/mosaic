@@ -8,40 +8,27 @@ function parseRef(ref: string) {
     return { id: Number(id), layer: layer === "bg" ? BG : FG }
 }
 
-const ALL_BLOCKS = Object.values(blocks).flat().map(parseRef)
 const MAX_HOTBAR = 9
 
-function btn(label: string, onClick: () => void) {
-    const el = document.createElement("button")
-
-    el.textContent = label
-    el.onclick = onClick
-
-    return el
-}
-
 export function createHud(onSelect: (id: number, layer: number) => void) {
-    const left = document.getElementById("gui-left")
-    const center = document.getElementById("gui-center")
-    const right = document.getElementById("gui-right")
+    const palette = document.getElementById("palette")!
+    const bar = document.getElementById("hotbar")!
 
-    left?.append(
-        btn("Leave", () => location.href = "/lobby"),
-        btn("Smiley", () => console.log("temp")),
-        btn("Aura", () => console.log("temp")),
-        btn("God", () => console.log("temp"))
-    )
+    document.getElementById("leaveBtn")!.onclick = () => location.href = "/lobby"
+    document.getElementById("inventoryBtn")!.onclick = () => palette.hidden = !palette.hidden
+
+    const tabBtns = [...document.getElementById("paletteButtons")!.children] as HTMLButtonElement[]
+    const tabPages = [...document.getElementById("paletteBlocks")!.children] as HTMLElement[]
+
+    tabPages.forEach((p, i) => p.hidden = i !== 0)
+    tabBtns.forEach((b, i) => b.onclick = () => {
+        tabBtns.forEach(t => t.classList.toggle("active", t === b))
+        tabPages.forEach((p, j) => p.hidden = i !== j)
+    })
 
     // TODO : make functional
     const hotbar: number[] = JSON.parse(localStorage.getItem("hotbar") ?? "[1,2,3,4,5,6,7,8,9]")
     let selectedBtn: HTMLButtonElement | null = null
-
-    const palette = document.createElement("div")
-    palette.id = "palette"
-    palette.hidden = true
-
-    const bar = document.createElement("div")
-    bar.id = "hotbar"
 
     function select(b: HTMLButtonElement, id: number, layer: number) {
         selectedBtn?.classList.remove("selected")
@@ -83,20 +70,19 @@ export function createHud(onSelect: (id: number, layer: number) => void) {
         }
     }
 
-    for (const { id, layer } of ALL_BLOCKS) {
-        const b = blockButton(id, layer)
-        if (layer === BG) b.classList.add("bg")
+    for (const [category, subs] of Object.entries(blocks)) {
+        const page = document.getElementById(`paletteBlocks${category[0].toUpperCase()}${category.slice(1)}`)
+        if (!page) continue
 
-        palette.append(b)
+        for (const ref of Object.values(subs).flat()) {
+            const { id, layer } = parseRef(ref)
+            const b = blockButton(id, layer)
+            if (layer === BG) b.classList.add("bg")
+
+            page.append(b)
+        }
     }
 
-    const row = document.createElement("div")
-    row.id = "hotbarRow"
-
-    const inventoryBtn = btn("Blocks", () => palette.hidden = !palette.hidden)
-    row.append(bar, inventoryBtn)
-
-    center?.append(palette, row)
     renderBar()
 
     addEventListener("keydown", (e) => {
@@ -105,9 +91,4 @@ export function createHud(onSelect: (id: number, layer: number) => void) {
 
         (bar.children[i] as HTMLButtonElement | undefined)?.click()
     })
-
-    right?.append(
-        btn("Settings", () => console.log("temp")),
-        btn("Map", () => console.log("temp"))
-    )
 }

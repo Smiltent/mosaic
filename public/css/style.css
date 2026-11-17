@@ -591,6 +591,7 @@ body {
 
     display: grid;
     grid-template-columns: 1fr auto 1fr;
+    align-items: end;
     
     background-color: rgb(0, 0, 0);
     pointer-events: auto;
@@ -633,8 +634,13 @@ body {
 }
 
 #palette {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     background-color: #000;
 }
 
@@ -642,7 +648,16 @@ body {
     display: none;
 }
 
-#hotbarRow {
+#paletteBlocks > div {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+#paletteBlocks > div[hidden] {
+    display: none;
+}
+
+.hotbarRow {
     display: flex;   
 }
 

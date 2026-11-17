@@ -1,18 +1,14 @@
 {
-    "admin": [
-        "fg.0", "bg.0"
-    ],
-    "basic": [
-        "fg.1", "fg.2", "fg.3", "fg.4", "fg.5", "fg.6", "fg.7", "fg.8", "fg.9", "fg.10"
-    ],
-    "brick": [
-        "fg.11", "fg.12", "fg.13", "fg.14", "fg.15", "fg.16", "fg.17", "fg.18", "fg.19", "fg.20"
-    ],
-    "generic": [
-        "fg.21", "fg.22", "fg.23", "fg.24", "fg.25"
-    ],
-    "background": [
-        "bg.1", "bg.2", "bg.3", "bg.4", "bg.5", "bg.6", "bg.7", "bg.8", "bg.9", "bg.10", 
-        "bg.11", "bg.12", "bg.13", "bg.14", "bg.15", "bg.16", "bg.17", "bg.18", "bg.19", "bg.20"
-    ]
+    "blocks": {
+        "basic": [ "fg.1", "fg.2", "fg.3", "fg.4", "fg.5", "fg.6", "fg.7", "fg.8", "fg.9", "fg.10" ],
+        "brick": [ "fg.11", "fg.12", "fg.13", "fg.14", "fg.15", "fg.16", "fg.17", "fg.18", "fg.19", "fg.20" ],
+        "generic": [ "fg.21", "fg.22", "fg.23", "fg.24", "fg.25" ],
+        "admin": [ "fg.0", "bg.0" ]
+    },
+    "action": {},
+    "decorative": {},
+    "background": {
+        "basic": [ "bg.1", "bg.2", "bg.3", "bg.4", "bg.5", "bg.6", "bg.7", "bg.8", "bg.9", "bg.10" ],
+        "brick": [ "bg.11", "bg.12", "bg.13", "bg.14", "bg.15", "bg.16", "bg.17", "bg.18", "bg.19", "bg.20" ]
+    }
 }
