@@ -11,8 +11,8 @@ const canvas = document.getElementById("game") as HTMLCanvasElement
 loadPacks().then(() => {
     const game = createGame(canvas)
 
-    createHud((id) => {
-        game.setSelectedBlock(id)
+    createHud((id, layer) => {
+        game.setSelectedBlock(id, layer)
     })
 })
 

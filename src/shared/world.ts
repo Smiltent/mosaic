@@ -1,5 +1,5 @@
 
-import { layerOf } from "@/src/shared/blocks.ts"
+import { isSolid, layerOf } from "@/src/shared/blocks.ts"
 
 export const SIZE = 16
 export const MS_PER_TICK = 10
@@ -38,6 +38,6 @@ export class World {
 
     public isSolid(x: number, y: number) {
         if (x < 0 || x >= this.width || y < 0 || y >= this.height) return true 
-        return this.layers[FG][y * this.width + x] === 1
+        return isSolid(this.layers[FG][y * this.width + x])
     }
 }

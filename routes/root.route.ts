@@ -83,12 +83,23 @@ router.get("/lobby", async (c) => {
         ? Math.ceil((msPerEnergy - (now - user.lastEnergyAt.getTime())) / 1000)
         : 0
 
-    const worlds = (await World.find()).map((w) => ({
+    const onlineIds = [...rooms.entries()]
+        .filter(([, r]) => r.players.size > 0)
+        .map(([wid]) => wid)
+
+    const worlds = (await World.find({
+        $or: [
+            { owner: id},
+            { _id: { $in: user.likedWorlds ?? [] } },
+            { _id: { $in: onlineIds } }
+        ]
+    })).map((w) => ({
         id: w.id,
         name: w.name,
         likes: w.likes,
         plays: w.plays,
-        online: rooms.get(w.id)?.players.size ?? 0
+        online: rooms.get(w.id)?.players.size ?? 0,
+        owned: String(w.owner) === id
     }))
 
     return spaRender(c, "menus/lobby.ejs", "Lobby", { user, worlds, worldTypes, energyNext })

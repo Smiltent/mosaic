@@ -1,5 +1,5 @@
 
-import { clearReset, clearSession, getSession, hashPassword, setReset, setSession, verifyPassword } from "@/src/server/auth.ts"
+import { clearReset, clearSession, getReset, getSession, hashPassword, setReset, setSession, verifyPassword } from "@/src/server/auth.ts"
 import { ratelimit } from "@/util/ratelimit.ts"
 import { sendCode } from "@/src/server/SMTP.ts"
 import captcha from "@/util/captcha.ts"
@@ -119,7 +119,8 @@ router.post("/reset", later, async (c) => {
     const { username, code, password } = await c.req.json().catch(() => ({}))
     if (!validPass(password)) return c.json({ error: "password must be at least 6 characters" }, 400)
 
-    const user = username && await User.findOne({ username })
+    const id = await getReset(c)
+    const user = id && await User.findById(id)
     if (!user || !user.resetCode || user.resetCode !== code || !user.resetExpires || user.resetExpires < new Date()) return c.json({ error: "invalid or expired code" }, 400)
 
     user.password = await hashPassword(password)

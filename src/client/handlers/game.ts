@@ -2,8 +2,8 @@
 import { snapCamera, stepCamera } from "@/src/client/handlers/camera.ts"
 import { draw, resize, scale } from "@/src/client/handlers/render.ts"
 import { bindInput, input } from "@/src/client/handlers/input.ts"
+import { FG, MS_PER_TICK, World } from "@/src/shared/world.ts"
 import { connect, Net } from "@/src/client/handlers/net.ts"
-import { MS_PER_TICK, World } from "@/src/shared/world.ts"
 import { bindPaint } from "@/src/client/handlers/paint.ts"
 import { ServerMessage } from "@/src/shared/messages.ts"
 import { stepPlayer } from "@/src/shared/physics.ts"
@@ -19,6 +19,7 @@ export function createGame(canvas: HTMLCanvasElement) {
     let me: Player | null = null
 
     let selectedBlock = 1
+    let selectedLayer = FG
     let acc = 0
 
     let last = performance.now()
@@ -117,6 +118,9 @@ export function createGame(canvas: HTMLCanvasElement) {
         get selectedBlock() {
             return selectedBlock
         },
+        get selectedLayer() {
+            return selectedLayer
+        },
         getMe: () => me
     })
 
@@ -125,8 +129,9 @@ export function createGame(canvas: HTMLCanvasElement) {
     requestAnimationFrame(frame)
 
     return {
-        setSelectedBlock(id: number) {
+        setSelectedBlock(id: number, layer: number) {
             selectedBlock = id
+            selectedLayer = layer
         }
     }
 }

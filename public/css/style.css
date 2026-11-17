@@ -608,7 +608,8 @@ body {
 }
 
 #gui-center {
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #gui-right {
@@ -629,4 +630,33 @@ body {
     height: 100%;
     display: block;
     pointer-events: none;
+}
+
+#palette {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #000;
+}
+
+#palette[hidden] {
+    display: none;
+}
+
+#hotbarRow {
+    display: flex;   
+}
+
+#gui button.block.selected {
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+}
+
+#gui button.block.empty {
+    opacity: 0.3;
+    cursor: default;
+}
+
+#gui button.block.in-hotbar {
+    outline: 1px solid #888;
+    outline-offset: -1px;
 }

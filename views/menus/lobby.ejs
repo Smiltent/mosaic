@@ -54,16 +54,17 @@
                 <div class="contentLeftHeader">
                     <p>GAMES</p>
                     <input type="text" id="search">
+                    <button class="defaultButton" id="refreshGames"></button>
                 </div>
                 <div class="activeGamesButtons">
-                    <button class="active">Online</button>
-                    <button>Liked</button>
-                    <button>Friends</button>
-                    <button>Owned</button>
+                    <button data-filter="online" class="active">Online</button>
+                    <button data-filter="liked">Liked</button>
+                    <button data-filter="friends">Friends</button>
+                    <button data-filter="owned">Owned</button>
                 </div>
                 <div class="activeGames">
                     <% for (const w of worlds) { %>
-                        <div class="game" data-game-redirect="/game/<%= w.id %>">
+                        <div class="game" data-game-redirect="/game/<%= w.id %>" data-online="<%= w.online %>" data-owned="<%= w.owned ? 1 : 0 %>" style="<%= w.online > 0 ? "" : "display: none;" %>">
                             <div class="title">
                                 <p><%= w.name %></p>
                             </div>

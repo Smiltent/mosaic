@@ -17,9 +17,49 @@
         <canvas id="game"></canvas>
         
         <div id="gui">
-            <div id="gui-left"></div>
-            <div id="gui-center"></div>
-            <div id="gui-right"></div>
+            <div id="gui-left">
+                <button id="leaveBtn">Leave</button>
+                <button>Smiley</button>
+                <button>Aura</button>
+                <button>God</button>
+            </div>
+
+            <div id="gui-center">
+                <div id="palette" hidden>
+                    <div id="paletteButtons">
+                        <button class="active">Blocks</button>
+                        <button>Action</button>
+                        <button>Decorative</button>
+                        <button>Background</button>
+                        <button>L</button>
+                    </div>
+
+                    <div id="paletteBlocks">
+                        <div id="paletteBlocksBlocks">
+
+                        </div>
+                        <div id="paletteBlocksAction">
+
+                        </div>
+                        <div id="paletteBlocksDecorative">
+
+                        </div>
+                        <div id="paletteBlocksBackground">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hotbarRow">
+                    <div id="hotbar"></div>
+                    <button id="inventoryBtn">Blocks</button>
+                </div>
+            </div>
+
+            <div id="gui-right">
+                <button>Settings</button>
+                <button>Map</button>
+            </div>
         </div>
     </div>
 

@@ -1,4 +1,12 @@
 
+import blocks from "@/src/shared/definitions/blocks.json" with { type: "json" }
+
+const SOLID = new Set(
+    Object.values(blocks).flat()
+        .filter(ref => ref.startsWith("fg.") && ref !== "fg.0")
+        .map(ref => Number(ref.slice(3)))
+)
+
 export const CONSTANT = 1.00016093
 export const GRAVITY = 2
 
@@ -47,8 +55,7 @@ export const GravityBlocks: Record<number, [number, number]> = {
 }
 
 export const isLiquid = (id: number) => id >= Block.Water && id <= Block.Toxic
-export const isBG = (_id: number) => false // none currently
-
+export const isSolid = (id: number) => SOLID.has(id)
 export function layerOf(id: number) {
-    return isBG(id) ? 1 : 0
+    return isSolid(id) ? 1 : 0
 }

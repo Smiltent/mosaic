@@ -2,11 +2,11 @@
 import { BG, FG, SIZE, World } from "@/src/shared/world.ts"
 import { tileAt } from "@/src/client/handlers/render.ts"
 import { Net } from "@/src/client/handlers/net.ts"
-import { layerOf } from "@/src/shared/blocks.ts"
 import { Player } from "@/src/shared/player.ts"
 
 export type PaintState = {
     selectedBlock: number
+    selectedLayer: number
     getMe: () => Player | null
 }
 
@@ -37,9 +37,8 @@ export function bindPaint(canvas: HTMLCanvasElement, world: World, net: Net, sta
         }
 
         const me = state.getMe()
-        if (me && overlapsMe(me, x, y)) return
-        
-        const layer = layerOf(state.selectedBlock)
+        const layer = state.selectedLayer
+        if (layer === FG && me && overlapsMe(me, x, y)) return
         if (world.get(layer, x, y) === state.selectedBlock) return
         
         net.send({ type: "place", layer, x, y, tile: state.selectedBlock })

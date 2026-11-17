@@ -21,6 +21,8 @@ const UserSchema = new Schema({
     smiley: { type: Number, default: 1 },
     aura: { type: Number, default: 1 },
 
+    likedWorlds: { type: [{ type: Schema.Types.ObjectId, ref: "World" }], default: [] },
+
     ownedWorlds: { type: Map, default: { "1": 1 } },
     ownedSmileys: { type: [Number], default: [1,2,3,4,5,6,7,8,9,10] },
     ownedAuras: { type: [Number], default: [1] }
