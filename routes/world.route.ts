@@ -25,7 +25,7 @@ router.post("/", async (c) => {
         type,
         width: def.w,
         height: def.h,
-        layers: [empty, empty]
+        layers: [empty, empty, empty]
     })
 
     return c.json({ id: world.id })

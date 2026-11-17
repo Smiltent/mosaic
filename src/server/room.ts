@@ -153,6 +153,10 @@ export async function getRoom(worldId: string) {
     const layers = (doc.layers as unknown as (Uint8Array | { buffer: Uint8Array })[])
         .map(l => unpack(l instanceof Uint8Array ? l : l.buffer))
 
+    if (layers.length === 2) {
+        layers.splice(1, 0, new Uint16Array(doc.width * doc.height))
+    }
+
     const room = new Room(worldId, doc.width ?? 25, doc.height ?? 25, layers)
     rooms.set(worldId, room)
     return room

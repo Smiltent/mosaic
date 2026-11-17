@@ -1,5 +1,5 @@
 
-import { SIZE, World, BG, FG } from "@/src/shared/world.ts"
+import { SIZE, World, BG, FG, MG } from "@/src/shared/world.ts"
 import { camX, camY } from "@/src/client/handlers/camera.ts"
 import { brickSprite } from "@/src/client/utils/bricks.ts"
 import { Player } from "@/src/shared/player.ts"
@@ -61,7 +61,7 @@ export function draw(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, w
     const x1 = Math.min(world.width, Math.ceil((camX + viewW) / SIZE) + 1)
     const y1 = Math.min(world.height, Math.ceil((camY + viewH) / SIZE) + 1)
 
-    for (const layer of [BG, FG] as const) {
+    for (const layer of [BG, MG, FG] as const) {
         for (let y = y0; y < y1; y++) {
             for (let x = x0; x < x1; x++) {
                 const id = world.get(layer, x, y)

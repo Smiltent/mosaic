@@ -1,5 +1,5 @@
 
-import { BG, FG, SIZE, World } from "@/src/shared/world.ts"
+import { BG, FG, MG, SIZE, World } from "@/src/shared/world.ts"
 import { tileAt } from "@/src/client/handlers/render.ts"
 import { Net } from "@/src/client/handlers/net.ts"
 import { Player } from "@/src/shared/player.ts"
@@ -46,7 +46,10 @@ export function bindPaint(canvas: HTMLCanvasElement, world: World, net: Net, sta
 
     canvas.onmousedown = (e) => {
         const { x, y } = tileAt(canvas, e)
-        eraserLayer = world.get(FG, x, y) !== 0 ? FG : BG
+        eraserLayer = world.get(FG, x, y) !== 0 ? FG
+            : world.get(MG, x, y) !== 0 ? MG
+            : BG
+            
         painting = true
 
         placeAt(x, y, e.button)

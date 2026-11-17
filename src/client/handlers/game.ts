@@ -33,7 +33,7 @@ export function createGame(canvas: HTMLCanvasElement) {
 
                 world.width = msg.w
                 world.height = msg.h
-                world.layers = [new Uint16Array(msg.w * msg.h), new Uint16Array(msg.w * msg.h)]
+                world.layers = msg.world.map(() => new Uint16Array(msg.w * msg.h))
                 msg.world.forEach((tiles, layer) => world.layers[layer].set(tiles))
 
                 for (const p of msg.players) {

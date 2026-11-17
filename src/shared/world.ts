@@ -5,13 +5,14 @@ export const SIZE = 16
 export const MS_PER_TICK = 10
 
 export const FG = 0
-export const BG = 1
+export const MG = 1
+export const BG = 2
 
 export class World {
     public layers: Uint16Array[]
 
     constructor(public width: number, public height: number) {
-        this.layers = [new Uint16Array(width * height), new Uint16Array(width * height)]
+        this.layers = [new Uint16Array(width * height), new Uint16Array(width * height), new Uint16Array(width * height)]
     }
 
     public get(layer: number, x: number, y: number) {

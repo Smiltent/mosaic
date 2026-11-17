@@ -64,7 +64,7 @@
                 </div>
                 <div class="activeGames">
                     <% for (const w of worlds) { %>
-                        <div class="game" data-game-redirect="/game/<%= w.id %>" data-online="<%= w.online %>" data-owned="<%= w.owned ? 1 : 0 %>" style="<%= w.online > 0 ? "" : "display: none;" %>">
+                        <div class="game" data-game-redirect="/game/<%= w.id %>" data-online="<%= w.online %>" data-owned="<%= w.owned ? 1 : 0 %>" <%= w.online > 0 ? "" : 'style: "display: none;"' %>>
                             <div class="title">
                                 <p><%= w.name %></p>
                             </div>

@@ -1,11 +1,11 @@
 
 import blocks from "@/src/shared/definitions/blocks.json" with { type: "json" }
 import { brickSprite } from "@/src/client/utils/bricks.ts"
-import { FG, BG } from "@/src/shared/world.ts"
+import { FG, BG, MG } from "@/src/shared/world.ts"
 
 function parseRef(ref: string) {
     const [layer, id] = ref.split(".")
-    return { id: Number(id), layer: layer === "bg" ? BG : FG }
+    return { id: Number(id), layer: layer === "bg" ? BG : layer === "mg" ? MG : FG }
 }
 
 const MAX_HOTBAR = 9
